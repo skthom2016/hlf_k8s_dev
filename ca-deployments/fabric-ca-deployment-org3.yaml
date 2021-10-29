@@ -1,0 +1,72 @@
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-org3
+spec:
+  selector:
+    app: ca-org3
+  ports:
+  - protocol: TCP
+    port: 9054
+    targetPort: 7054
+    name: https    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ca-org3
+  labels: 
+    app: ca-org3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ca-org3
+  template:
+    metadata:
+      labels:
+        app: ca-org3
+    spec:
+      volumes:
+      - name: org3-ca
+        persistentVolumeClaim:
+          claimName: org3-pvc
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: mypvc
+
+      containers:
+      - name: ca-org3
+        image: hyperledger/fabric-ca:1.4.4
+        command: 
+          - "sh"
+          - "-c" 
+          - "sleep 1 && fabric-ca-server start -b admin:adminpw -d --cfg.identities.allowremove --port 7054"
+        env:
+        - name: FABRIC_CA_SERVER_HOME
+          value: /organizations/fabric-ca/ca-org3/
+        - name: FABRIC_CA_SERVER_CA_NAME
+          value: "ca-org3"
+        - name: FABRIC_CA_SERVER_TLS_ENABLED
+          value: "true"
+        - name: FABRIC_CA_SERVER_CSR_CN
+          value: "ca-org3"
+        - name: FABRIC_CA_SERVER_CSR_HOSTS
+          value: ca-org3            
+        - name: FABRIC_CA_SERVER_DEBUG
+          value: "true"
+        - name: GODEBUG
+          value: "netdns=go"
+        - name: FABRIC_CA_CLIENT_HOME
+          value: /organizations/peerOrganizations/org3.example.com/
+        volumeMounts:
+        - name: org3-ca
+          mountPath: /organizations
+        - name: redis-storage   
+          mountPath: /scripts                              
+          
+        ports:
+        - containerPort: 7054

@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-orderer
+spec:
+  selector:
+    app: ca-orderer
+  ports:
+  - protocol: TCP
+    port: 10054
+    targetPort: 7054
+    name: https    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ca-orderer
+  labels: 
+    app: ca-orderer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ca-orderer
+  template:
+    metadata:
+      labels:
+        app: ca-orderer
+    spec:
+      volumes:
+      - name: orderer-ca
+        persistentVolumeClaim:
+          claimName: orderer-pvc
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: mypvc
+
+      containers:
+      - name: ca-orderer
+        image: hyperledger/fabric-ca:1.4.4
+        command: 
+          - "sh"
+          - "-c" 
+          - "sleep 1 && fabric-ca-server start -b admin:adminpw -d --cfg.identities.allowremove --port 7054 "
+        env:
+        - name: FABRIC_CA_SERVER_HOME
+          value: /organizations/fabric-ca/ordererOrg/
+        - name: FABRIC_CA_SERVER_CA_NAME
+          value: "ca-orderer"
+        - name: FABRIC_CA_SERVER_TLS_ENABLED
+          value: "true"
+        - name: FABRIC_CA_SERVER_CSR_CN
+          value: "ca-orderer"
+        - name: FABRIC_CA_SERVER_CSR_HOSTS
+          value: ca-orderer            
+        - name: FABRIC_CA_SERVER_DEBUG
+          value: "true"
+        - name: GODEBUG
+          value: "netdns=go"
+        - name: FABRIC_CA_CLIENT_HOME
+          value: /organizations/ordererOrganizations/example.com         
+        volumeMounts:
+        - name: orderer-ca
+          mountPath: /organizations
+        - name: redis-storage   
+          mountPath: /scripts
+                                     
+        ports:
+        - containerPort: 7054

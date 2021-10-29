@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-org2-certs
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: create-certs
+    spec:
+      volumes:
+        - name: org2-ca
+          persistentVolumeClaim:
+            claimName: org2-pvc
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: mypvc
+      containers:
+        - name: create-certs
+          image: hyperledger/fabric-ca:1.4.4
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "300m"
+            limits:
+              memory: "500Mi"
+              cpu: "350m"
+          volumeMounts:
+            - mountPath: /organizations
+              name: org2-ca
+            - mountPath: /scripts
+              name: redis-storage
+          command:
+            - /bin/sh
+            - -c
+            - |
+              /scripts/org2-certs.sh 
+      restartPolicy: Never

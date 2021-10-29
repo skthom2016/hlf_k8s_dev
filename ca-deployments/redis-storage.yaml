@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+spec:
+  containers:
+  - name: redis
+    image: redis
+    volumeMounts:
+        - name: redis-storage   
+          mountPath: /folder
+        - mountPath: /organizations
+          name: orderer-ca  
+        - mountPath: /org1
+          name: org1-peer          
+        - mountPath: /org2
+          name: org2-peer        
+        - mountPath: /org3
+          name: org3-peer                       
+  volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: mypvc
+      - name: orderer-ca
+        persistentVolumeClaim:
+          claimName: orderer-pvc             
+      - name: org1-peer
+        persistentVolumeClaim:
+          claimName: org1-pvc           
+      - name: org2-peer
+        persistentVolumeClaim:
+          claimName: org2-pvc  
+      - name: org3-peer
+        persistentVolumeClaim:
+          claimName: org3-pvc                      

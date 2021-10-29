@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: artifacts
+spec:
+  template:
+    spec:
+      containers:
+        - name: artifacts
+          image: hyperledger/fabric-tools:2.3
+          workingDir: /
+          volumeMounts:
+            - mountPath: /organizations
+              name: orderer-ca
+            - mountPath: /configtx
+              name: redis-storage
+              subPath: configtx
+            - mountPath: /system-genesis-block
+              name: orderer-ca
+              subPath: system-genesis-block
+            - mountPath: /channel-artifacts
+              name: org1-ca
+              subPath: channel-artifacts
+            - mountPath: /org1
+              name: org1-ca              
+            - mountPath: /org2
+              name: org2-ca 
+            - mountPath: /org3
+              name: org3-ca 
+            - mountPath: /scripts
+              name: redis-storage
+          command:
+            - /bin/bash
+            - -c
+            - |
+              ./scripts/createGenesis.sh &&
+              ./scripts/createChannel.sh
+
+      restartPolicy: Never
+      volumes:
+        - name: orderer-ca
+          persistentVolumeClaim:
+            claimName: orderer-pvc
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: mypvc
+        - name: org1-ca
+          persistentVolumeClaim:
+            claimName: org1-pvc
+        - name: org2-ca
+          persistentVolumeClaim:
+            claimName: org2-pvc
+        - name: org3-ca
+          persistentVolumeClaim:
+            claimName: org3-pvc                        
