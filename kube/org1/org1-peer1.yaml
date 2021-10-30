@@ -10,7 +10,7 @@ metadata:
   name: org1-peer1-config
 data:
   FABRIC_CFG_PATH: /var/hyperledger/fabric/config
-  FABRIC_LOGGING_SPEC: "debug:cauthdsl,policies,msp,grpc,peer.gossip.mcs,gossip,leveldbhelper=info"
+  FABRIC_LOGGING_SPEC: "debug"
   CORE_PEER_TLS_ENABLED: "true"
   CORE_PEER_TLS_CERT_FILE: /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/signcerts/cert.pem
   CORE_PEER_TLS_KEY_FILE: /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/keystore/server.key
@@ -28,6 +28,8 @@ data:
   CORE_OPERATIONS_LISTENADDRESS: 0.0.0.0:9443
   CORE_PEER_FILESYSTEMPATH: /var/hyperledger/fabric/data/org1-peer1.org1.example.com
   CORE_LEDGER_SNAPSHOTS_ROOTDIR: /var/hyperledger/fabric/data/org1-peer1.org1.example.com/snapshots
+  CORE_LEDGER_STATE_STATEDATABASE: "CouchDB"
+  CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS: "localhost:5984"
 
 ---
 apiVersion: apps/v1
@@ -62,6 +64,25 @@ spec:
               mountPath: /var/hyperledger/fabric/config
             - name: ccs-builder
               mountPath: /var/hyperledger/fabric/chaincode/ccs-builder/bin
+
+        - name: couchdb
+          image: hyperledger/fabric-couchdb:0.4.15
+          # env:
+          # - name: COUCHDB_USER
+          #   value: "user"
+          # - name: COUCHDB_PASSWORD
+          #   value: "password"
+          resources:
+            # limits:
+            #   memory: "250Mi"
+            #   cpu: "250m"
+            # requests:
+            #   memory: "250Mi"
+            #   cpu: "250m"
+          volumeMounts:
+            - mountPath: /opt/couchdb/data
+              name: fabric-volume
+              subPath: state/org1/peer1-couchdb
 
       # load the external chaincode builder into the peer image prior to peer launch.
       initContainers:
