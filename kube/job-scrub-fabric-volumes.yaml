@@ -30,6 +30,8 @@ spec:
               mountPath: /mnt/fabric-org1
             - name: fabric-org2-volume
               mountPath: /mnt/fabric-org2
+            - name: fabric-org3-volume
+              mountPath: /mnt/fabric-org3
       volumes:
         - name: fabric-org0-volume
           persistentVolumeClaim:
@@ -40,4 +42,6 @@ spec:
         - name: fabric-org2-volume
           persistentVolumeClaim:
             claimName: fabric-org2
-
+        - name: fabric-org3-volume
+          persistentVolumeClaim:
+            claimName: fabric-org3

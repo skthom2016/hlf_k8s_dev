@@ -19,10 +19,12 @@ function init_storage_volumes() {
   kubectl create -f kube/pv-fabric-org0.yaml || true
   kubectl create -f kube/pv-fabric-org1.yaml || true
   kubectl create -f kube/pv-fabric-org2.yaml || true
+  kubectl create -f kube/pv-fabric-org3.yaml || true
 
   kubectl -n $NS create -f kube/pvc-fabric-org0.yaml || true
   kubectl -n $NS create -f kube/pvc-fabric-org1.yaml || true
   kubectl -n $NS create -f kube/pvc-fabric-org2.yaml || true
+  kubectl -n $NS create -f kube/pvc-fabric-org3.yaml || true
 
   pop_fn
 }
@@ -33,10 +35,12 @@ function load_org_config() {
   kubectl -n $NS delete configmap org0-config || true
   kubectl -n $NS delete configmap org1-config || true
   kubectl -n $NS delete configmap org2-config || true
+  kubectl -n $NS delete configmap org3-config || true
 
   kubectl -n $NS create configmap org0-config --from-file=config/org0
   kubectl -n $NS create configmap org1-config --from-file=config/org1
   kubectl -n $NS create configmap org2-config --from-file=config/org2
+  kubectl -n $NS create configmap org3-config --from-file=config/org3
 
   pop_fn
 }

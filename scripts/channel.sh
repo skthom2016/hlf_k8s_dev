@@ -46,7 +46,7 @@ function create_channel_MSP() {
   create_channel_org_MSP org0 orderer 
   create_channel_org_MSP org1 peer
   create_channel_org_MSP org2 peer
-
+  create_channel_org_MSP org3 peer
   pop_fn
 }
 
@@ -59,6 +59,7 @@ function aggregate_channel_MSP() {
   kubectl -n $NS exec deploy/org0-ecert-ca -- tar zcvf - -C /var/hyperledger/fabric organizations/ordererOrganizations/org0.example.com/msp > build/msp/msp-org0.example.com.tgz
   kubectl -n $NS exec deploy/org1-ecert-ca -- tar zcvf - -C /var/hyperledger/fabric organizations/peerOrganizations/org1.example.com/msp > build/msp/msp-org1.example.com.tgz
   kubectl -n $NS exec deploy/org2-ecert-ca -- tar zcvf - -C /var/hyperledger/fabric organizations/peerOrganizations/org2.example.com/msp > build/msp/msp-org2.example.com.tgz
+  kubectl -n $NS exec deploy/org3-ecert-ca -- tar zcvf - -C /var/hyperledger/fabric organizations/peerOrganizations/org3.example.com/msp > build/msp/msp-org3.example.com.tgz
 
   kubectl -n $NS delete configmap msp-config || true
   kubectl -n $NS create configmap msp-config --from-file=build/msp/
@@ -72,10 +73,12 @@ function launch_admin_CLIs() {
   launch kube/org0/org0-admin-cli.yaml
   launch kube/org1/org1-admin-cli.yaml
   launch kube/org2/org2-admin-cli.yaml
+  launch kube/org3/org3-admin-cli.yaml
 
   kubectl -n $NS rollout status deploy/org0-admin-cli
   kubectl -n $NS rollout status deploy/org1-admin-cli
   kubectl -n $NS rollout status deploy/org2-admin-cli
+  kubectl -n $NS rollout status deploy/org3-admin-cli
 
   pop_fn
 }
@@ -136,6 +139,7 @@ function join_org_peers() {
 function join_peers() {
   join_org_peers org1
   join_org_peers org2
+  join_org_peers org3
 }
 
 # Copy the scripts/anchor_peers.sh to a remote volume
@@ -178,9 +182,11 @@ function update_anchor_peers() {
 
   push_anchor_peer_script org1
   push_anchor_peer_script org2
+  push_anchor_peer_script org3
 
   invoke_anchor_peer_update 1 ${peer_name}
   invoke_anchor_peer_update 2 ${peer_name}
+  invoke_anchor_peer_update 3 ${peer_name}
 
   pop_fn
 }

@@ -19,10 +19,12 @@ function launch_TLS_CAs() {
   launch_CA kube/org0/org0-tls-ca.yaml
   launch_CA kube/org1/org1-tls-ca.yaml
   launch_CA kube/org2/org2-tls-ca.yaml
+  launch_CA kube/org3/org3-tls-ca.yaml
 
   kubectl -n $NS rollout status deploy/org0-tls-ca
   kubectl -n $NS rollout status deploy/org1-tls-ca
   kubectl -n $NS rollout status deploy/org2-tls-ca
+  kubectl -n $NS rollout status deploy/org3-tls-ca
 
   # todo: this papers over a nasty bug whereby the CAs are ready, but sporadically refuse connections after a down / up
   sleep 10
@@ -36,10 +38,12 @@ function launch_ECert_CAs() {
   launch_CA kube/org0/org0-ecert-ca.yaml
   launch_CA kube/org1/org1-ecert-ca.yaml
   launch_CA kube/org2/org2-ecert-ca.yaml
+  launch_CA kube/org3/org3-ecert-ca.yaml
 
   kubectl -n $NS rollout status deploy/org0-ecert-ca
   kubectl -n $NS rollout status deploy/org1-ecert-ca
   kubectl -n $NS rollout status deploy/org2-ecert-ca
+  kubectl -n $NS rollout status deploy/org3-ecert-ca
 
   # todo: this papers over a nasty bug whereby the CAs are ready, but sporadically refuse connections after a down / up
   sleep 10
@@ -76,6 +80,7 @@ function enroll_bootstrap_TLS_CA_users() {
   enroll_bootstrap_TLS_CA_user org0 $TLSADMIN_AUTH
   enroll_bootstrap_TLS_CA_user org1 $TLSADMIN_AUTH
   enroll_bootstrap_TLS_CA_user org2 $TLSADMIN_AUTH
+  enroll_bootstrap_TLS_CA_user org3 $TLSADMIN_AUTH
 
   pop_fn
 }
@@ -115,6 +120,7 @@ function register_enroll_ECert_CA_bootstrap_users() {
   register_enroll_ECert_CA_bootstrap_user org0 $TLSADMIN_AUTH
   register_enroll_ECert_CA_bootstrap_user org1 $TLSADMIN_AUTH
   register_enroll_ECert_CA_bootstrap_user org2 $TLSADMIN_AUTH
+  register_enroll_ECert_CA_bootstrap_user org3 $TLSADMIN_AUTH
 
   pop_fn
 }
@@ -140,6 +146,7 @@ function enroll_bootstrap_ECert_CA_users() {
   enroll_bootstrap_ECert_CA_user org0 $RCAADMIN_AUTH
   enroll_bootstrap_ECert_CA_user org1 $RCAADMIN_AUTH
   enroll_bootstrap_ECert_CA_user org2 $RCAADMIN_AUTH
+  enroll_bootstrap_ECert_CA_user org3 $RCAADMIN_AUTH
 
   pop_fn
 }

@@ -37,11 +37,15 @@ function launch_peers() {
   launch kube/org1/org1-peer2.yaml
   launch kube/org2/org2-peer1.yaml
   launch kube/org2/org2-peer2.yaml
+  launch kube/org3/org3-peer1.yaml
+  launch kube/org3/org3-peer2.yaml
 
   kubectl -n $NS rollout status deploy/org1-peer1
   kubectl -n $NS rollout status deploy/org1-peer2
   kubectl -n $NS rollout status deploy/org2-peer1
   kubectl -n $NS rollout status deploy/org2-peer2
+  kubectl -n $NS rollout status deploy/org3-peer1
+  kubectl -n $NS rollout status deploy/org3-peer2
 
   pop_fn
 }
@@ -196,13 +200,62 @@ function create_org2_local_MSP() {
   ' | exec kubectl -n $NS exec deploy/org2-ecert-ca -i -- /bin/sh
 }
 
+function create_org3_local_MSP() {
+  echo 'set -x
+  export FABRIC_CA_CLIENT_HOME=/var/hyperledger/fabric-ca-client
+  export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_CLIENT_HOME/tls-root-cert/tls-ca-cert.pem
+
+  # Each identity in the network needs a registration and enrollment.
+  fabric-ca-client register --id.name org3-peer1 --id.secret peerpw --id.type peer --url https://org3-ecert-ca --mspdir $FABRIC_CA_CLIENT_HOME/org3-ecert-ca/rcaadmin/msp
+  fabric-ca-client register --id.name org3-peer2 --id.secret peerpw --id.type peer --url https://org3-ecert-ca --mspdir $FABRIC_CA_CLIENT_HOME/org3-ecert-ca/rcaadmin/msp
+  fabric-ca-client register --id.name org3-admin --id.secret org3adminpw  --id.type admin   --url https://org3-ecert-ca --mspdir $FABRIC_CA_CLIENT_HOME/org3-ecert-ca/rcaadmin/msp --id.attrs "hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert"
+
+  fabric-ca-client enroll --url https://org3-peer1:peerpw@org3-ecert-ca --csr.hosts org3-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp
+  fabric-ca-client enroll --url https://org3-peer2:peerpw@org3-ecert-ca --csr.hosts org3-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp
+  fabric-ca-client enroll --url https://org3-admin:org3adminpw@org3-ecert-ca  --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+
+  # Each node in the network needs a TLS registration and enrollment.
+  fabric-ca-client register --id.name org3-peer1 --id.secret peerpw --id.type peer --url https://org3-tls-ca --mspdir $FABRIC_CA_CLIENT_HOME/tls-ca/tlsadmin/msp
+  fabric-ca-client register --id.name org3-peer2 --id.secret peerpw --id.type peer --url https://org3-tls-ca --mspdir $FABRIC_CA_CLIENT_HOME/tls-ca/tlsadmin/msp
+
+  fabric-ca-client enroll --url https://org3-peer1:peerpw@org3-tls-ca --csr.hosts org3-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls
+  fabric-ca-client enroll --url https://org3-peer2:peerpw@org3-tls-ca --csr.hosts org3-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls
+
+  # Copy the TLS signing keys to a fixed path for convenience when launching the peers
+  cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/keystore/*_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/keystore/server.key
+  cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/keystore/*_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/keystore/server.key
+
+  cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/*_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/server.key
+
+  # Create local MSP config.yaml
+  echo "NodeOUs:
+    Enable: true
+    ClientOUIdentifier:
+      Certificate: cacerts/org3-ecert-ca.pem
+      OrganizationalUnitIdentifier: client
+    PeerOUIdentifier:
+      Certificate: cacerts/org3-ecert-ca.pem
+      OrganizationalUnitIdentifier: peer
+    AdminOUIdentifier:
+      Certificate: cacerts/org3-ecert-ca.pem
+      OrganizationalUnitIdentifier: admin
+    OrdererOUIdentifier:
+      Certificate: cacerts/org3-ecert-ca.pem
+      OrganizationalUnitIdentifier: orderer" > /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml
+
+  cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/config.yaml
+  cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/config.yaml
+  ' | exec kubectl -n $NS exec deploy/org3-ecert-ca -i -- /bin/sh
+}
+
 function create_local_MSP() {
   push_fn "Creating local node MSP"
 
   create_org0_local_MSP
   create_org1_local_MSP
   create_org2_local_MSP
-
+  create_org3_local_MSP
+  
   pop_fn
 }
 
