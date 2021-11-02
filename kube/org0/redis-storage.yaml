@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+spec:
+  containers:
+  - name: redis
+    image: redis
+    volumeMounts:
+      - name: fabric-volume
+        mountPath: /var/hyperledger/fabric               
+  volumes:
+      - name: fabric-volume
+        persistentVolumeClaim:
+          claimName: fabric-org0
+                      
