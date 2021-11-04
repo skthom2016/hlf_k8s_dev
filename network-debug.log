@@ -1,547 +1,65 @@
-Error from server (AlreadyExists): namespaces "test-network" already exists
-Error from server (AlreadyExists): error when creating "kube/pv-fabric-org0.yaml": persistentvolumes "fabric-org0" already exists
-Error from server (AlreadyExists): error when creating "kube/pv-fabric-org1.yaml": persistentvolumes "fabric-org1" already exists
-Error from server (AlreadyExists): error when creating "kube/pv-fabric-org2.yaml": persistentvolumes "fabric-org2" already exists
-Error from server (AlreadyExists): error when creating "kube/pv-fabric-org3.yaml": persistentvolumes "fabric-org3" already exists
-Error from server (AlreadyExists): error when creating "kube/pvc-fabric-org0.yaml": persistentvolumeclaims "fabric-org0" already exists
-Error from server (AlreadyExists): error when creating "kube/pvc-fabric-org1.yaml": persistentvolumeclaims "fabric-org1" already exists
-Error from server (AlreadyExists): error when creating "kube/pvc-fabric-org2.yaml": persistentvolumeclaims "fabric-org2" already exists
-Error from server (AlreadyExists): error when creating "kube/pvc-fabric-org3.yaml": persistentvolumeclaims "fabric-org3" already exists
-Error from server (NotFound): configmaps "org0-config" not found
-Error from server (NotFound): configmaps "org1-config" not found
-Error from server (NotFound): configmaps "org2-config" not found
-Error from server (NotFound): configmaps "org3-config" not found
-configmap/org0-config created
-configmap/org1-config created
-configmap/org2-config created
-configmap/org3-config created
-deployment.apps/org0-tls-ca created
-service/org0-tls-ca created
-deployment.apps/org1-tls-ca created
-service/org1-tls-ca created
-deployment.apps/org2-tls-ca created
-service/org2-tls-ca created
-deployment.apps/org3-tls-ca created
-service/org3-tls-ca created
-deployment "org0-tls-ca" successfully rolled out
-deployment "org1-tls-ca" successfully rolled out
-deployment "org2-tls-ca" successfully rolled out
-deployment "org3-tls-ca" successfully rolled out
-+ mkdir -p /var/hyperledger/fabric-ca-client/tls-root-cert
-+ cp /var/hyperledger/fabric-tls-ca-server/ca-cert.pem /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org0-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org0-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:51:54 [INFO] Created a default configuration file at /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:51:54 [INFO] TLS Enabled
-2021/10/30 18:51:54 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:51:54 [INFO] encoded CSR
-2021/10/30 18:51:54 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/signcerts/cert.pem
-2021/10/30 18:51:54 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/cacerts/org0-tls-ca.pem
-2021/10/30 18:51:54 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerPublicKey
-2021/10/30 18:51:54 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerRevocationPublicKey
-+ mkdir -p /var/hyperledger/fabric-ca-client/tls-root-cert
-+ cp /var/hyperledger/fabric-tls-ca-server/ca-cert.pem /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org1-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org1-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:51:57 [INFO] Created a default configuration file at /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:51:57 [INFO] TLS Enabled
-2021/10/30 18:51:57 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:51:57 [INFO] encoded CSR
-2021/10/30 18:51:57 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/signcerts/cert.pem
-2021/10/30 18:51:57 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/cacerts/org1-tls-ca.pem
-2021/10/30 18:51:57 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerPublicKey
-2021/10/30 18:51:57 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerRevocationPublicKey
-+ mkdir -p /var/hyperledger/fabric-ca-client/tls-root-cert
-+ cp /var/hyperledger/fabric-tls-ca-server/ca-cert.pem /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org2-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org2-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:00 [INFO] Created a default configuration file at /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:00 [INFO] TLS Enabled
-2021/10/30 18:52:00 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:00 [INFO] encoded CSR
-2021/10/30 18:52:00 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:00 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/cacerts/org2-tls-ca.pem
-2021/10/30 18:52:00 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerPublicKey
-2021/10/30 18:52:00 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerRevocationPublicKey
-+ mkdir -p /var/hyperledger/fabric-ca-client/tls-root-cert
-+ cp /var/hyperledger/fabric-tls-ca-server/ca-cert.pem /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org3-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org3-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:04 [INFO] Created a default configuration file at /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:04 [INFO] TLS Enabled
-2021/10/30 18:52:04 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:04 [INFO] encoded CSR
-2021/10/30 18:52:04 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:04 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/cacerts/org3-tls-ca.pem
-2021/10/30 18:52:04 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerPublicKey
-2021/10/30 18:52:04 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp/IssuerRevocationPublicKey
-+ fabric-ca-client register --id.name rcaadmin --id.secret rcaadminpw --url https://org0-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:07 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:07 [INFO] TLS Enabled
-2021/10/30 18:52:07 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org0-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org0-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp
-Password: rcaadminpw
-2021/10/30 18:52:07 [INFO] TLS Enabled
-2021/10/30 18:52:07 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:07 [INFO] encoded CSR
-2021/10/30 18:52:08 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:08 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/cacerts/org0-tls-ca.pem
-2021/10/30 18:52:08 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:08 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/9481650424f850beac08e22ff184970dd3f2c8f6116bc4a6521892d87ce95d32_sk /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/key.pem
-+ fabric-ca-client register --id.name rcaadmin --id.secret rcaadminpw --url https://org1-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:11 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:11 [INFO] TLS Enabled
-2021/10/30 18:52:11 [INFO] TLS Enabled
-Password: rcaadminpw
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org1-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org1-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp
-2021/10/30 18:52:11 [INFO] TLS Enabled
-2021/10/30 18:52:11 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:11 [INFO] encoded CSR
-2021/10/30 18:52:11 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:11 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/cacerts/org1-tls-ca.pem
-2021/10/30 18:52:11 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:11 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/0ddecb53b6aae09e2185796d79ba6071e56aa6aba79af37cfbd6a109198fae76_sk /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/key.pem
-+ fabric-ca-client register --id.name rcaadmin --id.secret rcaadminpw --url https://org2-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:14 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:14 [INFO] TLS Enabled
-2021/10/30 18:52:14 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org2-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org2-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp
-Password: rcaadminpw
-2021/10/30 18:52:14 [INFO] TLS Enabled
-2021/10/30 18:52:14 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:14 [INFO] encoded CSR
-2021/10/30 18:52:14 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:14 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/cacerts/org2-tls-ca.pem
-2021/10/30 18:52:14 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:14 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/c06285f8ecb79e7558b9f3bb3a96a762e94676aad2510fe2ecd20fbfa8f6a59b_sk /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/key.pem
-+ fabric-ca-client register --id.name rcaadmin --id.secret rcaadminpw --url https://org3-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:52:17 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:17 [INFO] TLS Enabled
-2021/10/30 18:52:17 [INFO] TLS Enabled
-Password: rcaadminpw
-+ fabric-ca-client enroll --url https://tlsadmin:tlsadminpw@org3-tls-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --csr.hosts org3-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp
-2021/10/30 18:52:17 [INFO] TLS Enabled
-2021/10/30 18:52:17 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:17 [INFO] encoded CSR
-2021/10/30 18:52:18 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:18 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/cacerts/org3-tls-ca.pem
-2021/10/30 18:52:18 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:18 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/41663bb896df77242ab2aaf69913e2ef04bdddb5888b7e8c9b5375fc907e8ebf_sk /var/hyperledger/fabric-ca-client/tls-ca/rcaadmin/msp/keystore/key.pem
-deployment.apps/org0-ecert-ca created
-service/org0-ecert-ca created
-deployment.apps/org1-ecert-ca created
-service/org1-ecert-ca created
-deployment.apps/org2-ecert-ca created
-service/org2-ecert-ca created
-deployment.apps/org3-ecert-ca created
-service/org3-ecert-ca created
-deployment "org0-ecert-ca" successfully rolled out
-deployment "org1-ecert-ca" successfully rolled out
-Waiting for deployment "org2-ecert-ca" rollout to finish: 0 of 1 updated replicas are available...
-deployment "org2-ecert-ca" successfully rolled out
-deployment "org3-ecert-ca" successfully rolled out
-+ fabric-ca-client enroll --url https://rcaadmin:rcaadminpw@org0-ecert-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp
-2021/10/30 18:52:46 [INFO] TLS Enabled
-2021/10/30 18:52:46 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:46 [INFO] encoded CSR
-2021/10/30 18:52:46 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:46 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp/cacerts/org0-ecert-ca.pem
-2021/10/30 18:52:46 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:46 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://rcaadmin:rcaadminpw@org1-ecert-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp
-2021/10/30 18:52:49 [INFO] TLS Enabled
-2021/10/30 18:52:49 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:49 [INFO] encoded CSR
-2021/10/30 18:52:49 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:49 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp/cacerts/org1-ecert-ca.pem
-2021/10/30 18:52:49 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:49 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://rcaadmin:rcaadminpw@org2-ecert-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp
-2021/10/30 18:52:52 [INFO] TLS Enabled
-2021/10/30 18:52:52 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:52 [INFO] encoded CSR
-2021/10/30 18:52:53 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:53 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp/cacerts/org2-ecert-ca.pem
-2021/10/30 18:52:53 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:53 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://rcaadmin:rcaadminpw@org3-ecert-ca --tls.certfiles /var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem --mspdir /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp
-2021/10/30 18:52:56 [INFO] TLS Enabled
-2021/10/30 18:52:56 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:52:56 [INFO] encoded CSR
-2021/10/30 18:52:56 [INFO] Stored client certificate at /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp/signcerts/cert.pem
-2021/10/30 18:52:56 [INFO] Stored root CA certificate at /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp/cacerts/org3-ecert-ca.pem
-2021/10/30 18:52:56 [INFO] Stored Issuer public key at /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp/IssuerPublicKey
-2021/10/30 18:52:56 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp/IssuerRevocationPublicKey
-+ export 'FABRIC_CA_CLIENT_HOME=/var/hyperledger/fabric-ca-client'
-+ export 'FABRIC_CA_CLIENT_TLS_CERTFILES=/var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem'
-+ fabric-ca-client register --id.name org0-orderer1 --id.secret ordererpw --id.type orderer --url https://org0-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp
-2021/10/30 18:52:59 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:59 [INFO] TLS Enabled
-2021/10/30 18:52:59 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org0-orderer2 --id.secret ordererpw --id.type orderer --url https://org0-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp
-Password: ordererpw
-2021/10/30 18:52:59 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:59 [INFO] TLS Enabled
-2021/10/30 18:52:59 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org0-orderer3 --id.secret ordererpw --id.type orderer --url https://org0-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp
-Password: ordererpw
-2021/10/30 18:52:59 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:59 [INFO] TLS Enabled
-2021/10/30 18:52:59 [INFO] TLS Enabled
-Password: ordererpw
-+ fabric-ca-client register --id.name org0-admin --id.secret org0adminpw --id.type admin --url https://org0-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org0-ecert-ca/rcaadmin/msp --id.attrs 'hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert'
-2021/10/30 18:52:59 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:52:59 [INFO] TLS Enabled
-2021/10/30 18:52:59 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://org0-orderer1:ordererpw@org0-ecert-ca --csr.hosts org0-orderer1 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp
-Password: org0adminpw
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:00 [INFO] encoded CSR
-2021/10/30 18:53:00 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:00 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/cacerts/org0-ecert-ca.pem
-2021/10/30 18:53:00 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:00 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org0-orderer2:ordererpw@org0-ecert-ca --csr.hosts org0-orderer2 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:00 [INFO] encoded CSR
-2021/10/30 18:53:00 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:00 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/cacerts/org0-ecert-ca.pem
-2021/10/30 18:53:00 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:00 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org0-orderer3:ordererpw@org0-ecert-ca --csr.hosts org0-orderer3 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:00 [INFO] encoded CSR
-2021/10/30 18:53:00 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:00 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp/cacerts/org0-ecert-ca.pem
-2021/10/30 18:53:00 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:00 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org0-admin:org0adminpw@org0-ecert-ca --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/users/Admin@org0.example.com/msp
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:00 [INFO] encoded CSR
-2021/10/30 18:53:00 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/users/Admin@org0.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:00 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/users/Admin@org0.example.com/msp/cacerts/org0-ecert-ca.pem
-2021/10/30 18:53:00 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/users/Admin@org0.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:00 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/users/Admin@org0.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client register --id.name org0-orderer1 --id.secret ordererpw --id.type orderer --url https://org0-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:00 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] TLS Enabled
-Password: ordererpw
-+ fabric-ca-client register --id.name org0-orderer2 --id.secret ordererpw --id.type orderer --url https://org0-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:00 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org0-orderer3 --id.secret ordererpw --id.type orderer --url https://org0-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-Password: ordererpw
-2021/10/30 18:53:00 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:00 [INFO] TLS Enabled
-2021/10/30 18:53:00 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://org0-orderer1:ordererpw@org0-tls-ca --csr.hosts org0-orderer1 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls
-Password: ordererpw
-2021/10/30 18:53:01 [INFO] TLS Enabled
-2021/10/30 18:53:01 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:01 [INFO] encoded CSR
-2021/10/30 18:53:01 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:01 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/cacerts/org0-tls-ca.pem
-2021/10/30 18:53:01 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:01 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org0-orderer2:ordererpw@org0-tls-ca --csr.hosts org0-orderer2 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls
-2021/10/30 18:53:01 [INFO] TLS Enabled
-2021/10/30 18:53:01 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:01 [INFO] encoded CSR
-2021/10/30 18:53:01 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:01 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/cacerts/org0-tls-ca.pem
-2021/10/30 18:53:01 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:01 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org0-orderer3:ordererpw@org0-tls-ca --csr.hosts org0-orderer3 --mspdir /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls
-2021/10/30 18:53:01 [INFO] TLS Enabled
-2021/10/30 18:53:01 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:01 [INFO] encoded CSR
-2021/10/30 18:53:01 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:01 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/cacerts/org0-tls-ca.pem
-2021/10/30 18:53:01 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:01 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/keystore/1f0de73122016d7a00cb4d452981b2bfc2f65f9ff3c7a406f17222b9246674d1_sk /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/keystore/32223fe571df019a30596a3409cbc6620e7f3e95bed34dbbdcbc0201bcb2e0c9_sk /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/keystore/51c87e84137f76af054e89b1bceb98ca8b070dafed2fc70f36766410a32fcfa0_sk /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/keystore/server.key
-+ echo 'NodeOUs:
-    Enable: true
-    ClientOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
-      OrganizationalUnitIdentifier: client
-    PeerOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
-      OrganizationalUnitIdentifier: peer
-    AdminOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
-      OrganizationalUnitIdentifier: admin
-    OrdererOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
-      OrganizationalUnitIdentifier: orderer'
-+ cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/config.yaml
-+ cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/msp/config.yaml
-+ export 'FABRIC_CA_CLIENT_HOME=/var/hyperledger/fabric-ca-client'
-+ export 'FABRIC_CA_CLIENT_TLS_CERTFILES=/var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem'
-+ fabric-ca-client register --id.name org1-peer1 --id.secret peerpw --id.type peer --url https://org1-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp
-2021/10/30 18:53:04 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:04 [INFO] TLS Enabled
-2021/10/30 18:53:04 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org1-peer2 --id.secret peerpw --id.type peer --url https://org1-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp
-Password: peerpw
-2021/10/30 18:53:04 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:04 [INFO] TLS Enabled
-2021/10/30 18:53:04 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org1-admin --id.secret org1adminpw --id.type admin --url https://org1-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org1-ecert-ca/rcaadmin/msp --id.attrs 'hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert'
-Password: peerpw
-2021/10/30 18:53:05 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://org1-peer1:peerpw@org1-ecert-ca --csr.hosts org1-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp
-Password: org1adminpw
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:05 [INFO] encoded CSR
-2021/10/30 18:53:05 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:05 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/cacerts/org1-ecert-ca.pem
-2021/10/30 18:53:05 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:05 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org1-peer2:peerpw@org1-ecert-ca --csr.hosts org1-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:05 [INFO] encoded CSR
-2021/10/30 18:53:05 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:05 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp/cacerts/org1-ecert-ca.pem
-2021/10/30 18:53:05 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:05 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org1-admin:org1adminpw@org1-ecert-ca --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:05 [INFO] encoded CSR
-2021/10/30 18:53:05 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:05 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/cacerts/org1-ecert-ca.pem
-2021/10/30 18:53:05 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:05 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client register --id.name org1-peer1 --id.secret peerpw --id.type peer --url https://org1-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:05 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org1-peer2 --id.secret peerpw --id.type peer --url https://org1-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-Password: peerpw
-2021/10/30 18:53:05 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] TLS Enabled
-Password: peerpw
-+ fabric-ca-client enroll --url https://org1-peer1:peerpw@org1-tls-ca --csr.hosts org1-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls
-2021/10/30 18:53:05 [INFO] TLS Enabled
-2021/10/30 18:53:05 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:05 [INFO] encoded CSR
-2021/10/30 18:53:06 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:06 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/cacerts/org1-tls-ca.pem
-2021/10/30 18:53:06 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:06 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org1-peer2:peerpw@org1-tls-ca --csr.hosts org1-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls
-2021/10/30 18:53:06 [INFO] TLS Enabled
-2021/10/30 18:53:06 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:06 [INFO] encoded CSR
-2021/10/30 18:53:06 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:06 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/cacerts/org1-tls-ca.pem
-2021/10/30 18:53:06 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:06 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/keystore/1fbb46f075930bfad26c09fba78cdc300271391aa4b2568deb9a6b23bf2cbfb5_sk /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/keystore/4fa477a13beee92841a0306f2735a72e3fd914f438a77ed7335d0a7a3a269c97_sk /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/cb8f245753610cbfb6cdab462c3278e157c7f30a67cbc19052d6a2ea923c507e_sk /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/server.key
-+ echo 'NodeOUs:
-    Enable: true
-    ClientOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
-      OrganizationalUnitIdentifier: client
-    PeerOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
-      OrganizationalUnitIdentifier: peer
-    AdminOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
-      OrganizationalUnitIdentifier: admin
-    OrdererOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
-      OrganizationalUnitIdentifier: orderer'
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer2.org1.example.com/msp/config.yaml
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/config.yaml
-+ export 'FABRIC_CA_CLIENT_HOME=/var/hyperledger/fabric-ca-client'
-+ export 'FABRIC_CA_CLIENT_TLS_CERTFILES=/var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem'
-+ fabric-ca-client register --id.name org2-peer1 --id.secret peerpw --id.type peer --url https://org2-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp
-2021/10/30 18:53:09 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:09 [INFO] TLS Enabled
-2021/10/30 18:53:09 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org2-peer2 --id.secret peerpw --id.type peer --url https://org2-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp
-Password: peerpw
-2021/10/30 18:53:09 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:09 [INFO] TLS Enabled
-2021/10/30 18:53:09 [INFO] TLS Enabled
-Password: peerpw
-+ fabric-ca-client register --id.name org2-admin --id.secret org2adminpw --id.type admin --url https://org2-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org2-ecert-ca/rcaadmin/msp --id.attrs 'hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert'
-2021/10/30 18:53:09 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:09 [INFO] TLS Enabled
-2021/10/30 18:53:09 [INFO] TLS Enabled
-Password: org2adminpw
-+ fabric-ca-client enroll --url https://org2-peer1:peerpw@org2-ecert-ca --csr.hosts org2-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:10 [INFO] encoded CSR
-2021/10/30 18:53:10 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:10 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/cacerts/org2-ecert-ca.pem
-2021/10/30 18:53:10 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:10 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org2-peer2:peerpw@org2-ecert-ca --csr.hosts org2-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:10 [INFO] encoded CSR
-2021/10/30 18:53:10 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:10 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/cacerts/org2-ecert-ca.pem
-2021/10/30 18:53:10 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:10 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org2-admin:org2adminpw@org2-ecert-ca --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:10 [INFO] encoded CSR
-2021/10/30 18:53:10 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:10 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/cacerts/org2-ecert-ca.pem
-2021/10/30 18:53:10 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:10 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client register --id.name org2-peer1 --id.secret peerpw --id.type peer --url https://org2-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:10 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] TLS Enabled
-Password: peerpw
-+ fabric-ca-client register --id.name org2-peer2 --id.secret peerpw --id.type peer --url https://org2-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:10 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://org2-peer1:peerpw@org2-tls-ca --csr.hosts org2-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls
-Password: peerpw
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:10 [INFO] encoded CSR
-2021/10/30 18:53:10 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:10 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/cacerts/org2-tls-ca.pem
-2021/10/30 18:53:10 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:10 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org2-peer2:peerpw@org2-tls-ca --csr.hosts org2-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls
-2021/10/30 18:53:10 [INFO] TLS Enabled
-2021/10/30 18:53:10 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:10 [INFO] encoded CSR
-2021/10/30 18:53:11 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:11 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/cacerts/org2-tls-ca.pem
-2021/10/30 18:53:11 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:11 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/keystore/a5682ce4f25feeae5119e568f0ee1daff24b4621b40d7dd092ba6b38b9771151_sk /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/keystore/dd9449cd511422ce56ac93ae74a0f5b3c0e1d4961831d1dd1413897d297f42d3_sk /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/702f13c1f574b82b11fc5190106c569179646dbcf909455d3b9d63c0ecea3082_sk /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/server.key
-+ echo 'NodeOUs:
-    Enable: true
-    ClientOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
-      OrganizationalUnitIdentifier: client
-    PeerOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
-      OrganizationalUnitIdentifier: peer
-    AdminOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
-      OrganizationalUnitIdentifier: admin
-    OrdererOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
-      OrganizationalUnitIdentifier: orderer'
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/config.yaml
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/config.yaml
-+ export 'FABRIC_CA_CLIENT_HOME=/var/hyperledger/fabric-ca-client'
-+ export 'FABRIC_CA_CLIENT_TLS_CERTFILES=/var/hyperledger/fabric-ca-client/tls-root-cert/tls-ca-cert.pem'
-+ fabric-ca-client register --id.name org3-peer1 --id.secret peerpw --id.type peer --url https://org3-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp
-2021/10/30 18:53:14 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org3-peer2 --id.secret peerpw --id.type peer --url https://org3-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp
-Password: peerpw
-2021/10/30 18:53:14 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] TLS Enabled
-Password: peerpw
-+ fabric-ca-client register --id.name org3-admin --id.secret org3adminpw --id.type admin --url https://org3-ecert-ca --mspdir /var/hyperledger/fabric-ca-client/org3-ecert-ca/rcaadmin/msp --id.attrs 'hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert'
-2021/10/30 18:53:14 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] TLS Enabled
-+ fabric-ca-client enroll --url https://org3-peer1:peerpw@org3-ecert-ca --csr.hosts org3-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp
-Password: org3adminpw
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:14 [INFO] encoded CSR
-2021/10/30 18:53:14 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:14 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/cacerts/org3-ecert-ca.pem
-2021/10/30 18:53:14 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:14 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org3-peer2:peerpw@org3-ecert-ca --csr.hosts org3-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:14 [INFO] encoded CSR
-2021/10/30 18:53:14 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:14 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/cacerts/org3-ecert-ca.pem
-2021/10/30 18:53:14 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:14 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org3-admin:org3adminpw@org3-ecert-ca --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-2021/10/30 18:53:14 [INFO] TLS Enabled
-2021/10/30 18:53:14 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:15 [INFO] encoded CSR
-2021/10/30 18:53:15 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts/cert.pem
-2021/10/30 18:53:15 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/cacerts/org3-ecert-ca.pem
-2021/10/30 18:53:15 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/IssuerPublicKey
-2021/10/30 18:53:15 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/IssuerRevocationPublicKey
-+ fabric-ca-client register --id.name org3-peer1 --id.secret peerpw --id.type peer --url https://org3-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-2021/10/30 18:53:15 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:15 [INFO] TLS Enabled
-2021/10/30 18:53:15 [INFO] TLS Enabled
-+ fabric-ca-client register --id.name org3-peer2 --id.secret peerpw --id.type peer --url https://org3-tls-ca --mspdir /var/hyperledger/fabric-ca-client/tls-ca/tlsadmin/msp
-Password: peerpw
-2021/10/30 18:53:15 [INFO] Configuration file location: /var/hyperledger/fabric-ca-client/fabric-ca-client-config.yaml
-2021/10/30 18:53:15 [INFO] TLS Enabled
-2021/10/30 18:53:15 [INFO] TLS Enabled
-Password: peerpw
-+ fabric-ca-client enroll --url https://org3-peer1:peerpw@org3-tls-ca --csr.hosts org3-peer1 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls
-2021/10/30 18:53:15 [INFO] TLS Enabled
-2021/10/30 18:53:15 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:15 [INFO] encoded CSR
-2021/10/30 18:53:15 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:15 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/cacerts/org3-tls-ca.pem
-2021/10/30 18:53:15 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:15 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/IssuerRevocationPublicKey
-+ fabric-ca-client enroll --url https://org3-peer2:peerpw@org3-tls-ca --csr.hosts org3-peer2 --mspdir /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls
-2021/10/30 18:53:15 [INFO] TLS Enabled
-2021/10/30 18:53:15 [INFO] generating key: &{A:ecdsa S:256}
-2021/10/30 18:53:15 [INFO] encoded CSR
-2021/10/30 18:53:15 [INFO] Stored client certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/signcerts/cert.pem
-2021/10/30 18:53:15 [INFO] Stored root CA certificate at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/cacerts/org3-tls-ca.pem
-2021/10/30 18:53:15 [INFO] Stored Issuer public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/IssuerPublicKey
-2021/10/30 18:53:15 [INFO] Stored Issuer revocation public key at /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/IssuerRevocationPublicKey
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/keystore/648d90b9664428de0a7cc870cca49dba914719ad82a6985856ede552df50fad1_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/keystore/c9c30374a37171389a6302caa56b28509f0c26511247eeafb88e0b06eb5c6afe_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/tls/keystore/server.key
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/c4499022a7edd946a2c826ba0f31f4134dfb813087f5a3bd0ebfaea95004107d_sk /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/server.key
-+ echo 'NodeOUs:
-    Enable: true
-    ClientOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
-      OrganizationalUnitIdentifier: client
-    PeerOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
-      OrganizationalUnitIdentifier: peer
-    AdminOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
-      OrganizationalUnitIdentifier: admin
-    OrdererOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
-      OrganizationalUnitIdentifier: orderer'
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/config.yaml
-+ cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/config.yaml
-pod/redis created
-error: error parsing ./kube/org0/create-artifacts.yaml: error converting YAML to JSON: yaml: line 9: did not find expected key
-scripts/utils.sh: line 22: 11117 Terminated              tail -f ${LOG_FILE}
+deployment.apps "org0-admin-cli" deleted
+deployment.apps "org0-ecert-ca" deleted
+deployment.apps "org0-orderer1" deleted
+deployment.apps "org0-orderer2" deleted
+deployment.apps "org0-orderer3" deleted
+deployment.apps "org0-tls-ca" deleted
+deployment.apps "org1-admin-cli" deleted
+deployment.apps "org1-cc-asset-transfer-basic" deleted
+deployment.apps "org1-ecert-ca" deleted
+deployment.apps "org1-peer1" deleted
+deployment.apps "org1-peer2" deleted
+deployment.apps "org1-tls-ca" deleted
+deployment.apps "org2-admin-cli" deleted
+deployment.apps "org2-ecert-ca" deleted
+deployment.apps "org2-peer1" deleted
+deployment.apps "org2-peer2" deleted
+deployment.apps "org2-tls-ca" deleted
+deployment.apps "org3-admin-cli" deleted
+deployment.apps "org3-ecert-ca" deleted
+deployment.apps "org3-peer1" deleted
+deployment.apps "org3-peer2" deleted
+deployment.apps "org3-tls-ca" deleted
+pod "org0-admin-cli-54f58b4854-hlxf6" deleted
+pod "org0-orderer2-8c9c66fb6-rkg5m" deleted
+pod "org1-admin-cli-9cc64895b-gnj2p" deleted
+pod "org2-admin-cli-76d6784799-vrtst" deleted
+pod "org2-tls-ca-6f749d8c7c-pj9sc" deleted
+pod "org3-admin-cli-5dc7cd695b-bjp47" deleted
+pod "org3-ecert-ca-5569c66bc-2hwbv" deleted
+pod "org3-peer2-75f5fc5b8b-szg9s" deleted
+pod "redis" deleted
+service "org0-ecert-ca" deleted
+service "org0-orderer1" deleted
+service "org0-orderer2" deleted
+service "org0-orderer3" deleted
+service "org0-tls-ca" deleted
+service "org1-cc-asset-transfer-basic" deleted
+service "org1-ecert-ca" deleted
+service "org1-peer1" deleted
+service "org1-peer2" deleted
+service "org1-tls-ca" deleted
+service "org2-ecert-ca" deleted
+service "org2-peer1" deleted
+service "org2-peer2" deleted
+service "org2-tls-ca" deleted
+service "org3-ecert-ca" deleted
+service "org3-peer1" deleted
+service "org3-peer2" deleted
+service "org3-tls-ca" deleted
+configmap "kube-root-ca.crt" deleted
+configmap "msp-config" deleted
+configmap "org0-config" deleted
+configmap "org0-orderer1-env" deleted
+configmap "org0-orderer2-env" deleted
+configmap "org0-orderer3-env" deleted
+configmap "org1-config" deleted
+configmap "org1-peer1-config" deleted
+configmap "org1-peer2-config" deleted
+configmap "org2-config" deleted
+configmap "org2-peer2-config" deleted
+configmap "org3-config" deleted
+configmap "org3-peer1-config" deleted
+configmap "org3-peer2-config" deleted
+Unable to connect to the server: http2: client connection lost
+scripts/utils.sh: line 22:  8811 Terminated              tail -f ${LOG_FILE}
