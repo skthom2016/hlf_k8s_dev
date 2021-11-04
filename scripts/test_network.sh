@@ -259,6 +259,13 @@ function create_local_MSP() {
   pop_fn
 }
 
+# Copy the scripts/anchor_peers.sh to a remote volume
+function push_orderer_script() {
+  local org=$1
+
+  tar cf - scripts/ | kubectl -n $NS exec -i -c redis pod/redis -- tar xf - -C /var/hyperledger/fabric
+}
+
 function network_up() {
 
   # Kube config
@@ -277,6 +284,10 @@ function network_up() {
 
   # Test Network
   create_local_MSP
+  kubectl -n $NS apply -f ./kube/org0/redis-storage.yaml
+  push_orderer_script org0
+  kubectl apply -f ./kube/org0/create-artifacts.yaml
+  sleep 10
   launch_orderers
   launch_peers
 }

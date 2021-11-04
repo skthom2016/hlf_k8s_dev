@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: artifacts
+spec:
+      containers:
+        - name: artifacts
+          image: hyperledger/fabric-tools:2.3
+          workingDir: /var/hyperledger/fabric
+          volumeMounts:
+            - name: fabric-volume
+              mountPath: /var/hyperledger/fabric/config
+          command:
+            - /bin/bash
+            - -c
+            - | 
+            - sleep 1000 
+
+      restartPolicy: Never
+      volumes:
+        - name: fabric-volume
+          persistentVolumeClaim:
+            claimName: fabric-org0
+                   

@@ -20,15 +20,15 @@ deployment.apps "org3-ecert-ca" deleted
 deployment.apps "org3-peer1" deleted
 deployment.apps "org3-peer2" deleted
 deployment.apps "org3-tls-ca" deleted
-pod "org0-admin-cli-54f58b4854-h89vk" deleted
-pod "org0-orderer3-5494547546-znmw6" deleted
-pod "org1-admin-cli-9cc64895b-6mfdx" deleted
-pod "org1-ecert-ca-6566b6c79f-gbwlz" deleted
-pod "org1-peer2-7d5d89bd98-nzc9w" deleted
-pod "org1-tls-ca-57998bd4c-zgqbm" deleted
-pod "org2-admin-cli-76d6784799-z2xt4" deleted
-pod "org2-peer2-67878ff8bf-nf95m" deleted
-pod "org3-admin-cli-5dc7cd695b-d62k2" deleted
+pod "org0-admin-cli-54f58b4854-hlxf6" deleted
+pod "org0-orderer2-8c9c66fb6-rkg5m" deleted
+pod "org1-admin-cli-9cc64895b-gnj2p" deleted
+pod "org2-admin-cli-76d6784799-vrtst" deleted
+pod "org2-tls-ca-6f749d8c7c-pj9sc" deleted
+pod "org3-admin-cli-5dc7cd695b-bjp47" deleted
+pod "org3-ecert-ca-5569c66bc-2hwbv" deleted
+pod "org3-peer2-75f5fc5b8b-szg9s" deleted
+pod "redis" deleted
 service "org0-ecert-ca" deleted
 service "org0-orderer1" deleted
 service "org0-orderer2" deleted
@@ -57,13 +57,9 @@ configmap "org1-config" deleted
 configmap "org1-peer1-config" deleted
 configmap "org1-peer2-config" deleted
 configmap "org2-config" deleted
-configmap "org2-peer1-config" deleted
 configmap "org2-peer2-config" deleted
 configmap "org3-config" deleted
 configmap "org3-peer1-config" deleted
 configmap "org3-peer2-config" deleted
-secret "default-token-9pfl5" deleted
-job.batch/job-scrub-fabric-volumes created
-job.batch/job-scrub-fabric-volumes condition met
-job.batch "job-scrub-fabric-volumes" deleted
-scripts/utils.sh: line 22: 18397 Terminated              tail -f ${LOG_FILE}
+Unable to connect to the server: http2: client connection lost
+scripts/utils.sh: line 22:  8811 Terminated              tail -f ${LOG_FILE}
