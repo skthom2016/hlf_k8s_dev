@@ -27,6 +27,7 @@ NETWORK_NAME=${TEST_NETWORK_NAME:-test-network}
 CLUSTER_NAME=${TEST_NETWORK_KIND_CLUSTER_NAME:-kind}
 NS=${TEST_NETWORK_KUBE_NAMESPACE:-${NETWORK_NAME}}
 CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-mychannel}
+CHANNEL_NAME1=${TEST_NETWORK_CHANNEL_NAME:-org1org2channel}
 LOG_FILE=${TEST_NETWORK_LOG_FILE:-network.log}
 DEBUG_FILE=${TEST_NETWORK_DEBUG_FILE:-network-debug.log}
 LOCAL_REGISTRY_NAME=${TEST_NETWORK_LOCAL_REGISTRY_NAME:-kind-registry}
@@ -36,6 +37,8 @@ NGINX_HTTPS_PORT=${TEST_NETWORK_INGRESS_HTTPS_PORT:-443}
 CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic}
 CHAINCODE_IMAGE=${TEST_NETWORK_CHAINCODE_IMAGE:-ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic}
 CHAINCODE_LABEL=${TEST_NETWORK_CHAINCODE_LABEL:-basic_1.0}
+PROFILE=${TEST_NETWORK_PROFILE_NAME:-ThreeOrgsApplicationGenesis}
+PROFILE1=${TEST_NETWORK_PROFILE_NAME:-Org1Org2ApplicationGenesis}
 
 # todo: more complicated config, as these bleed into the yaml descriptors (sed? kustomize? helm (no)? tkn? ansible?...) or other script locations
 TLSADMIN_AUTH=tlsadmin:tlsadminpw
@@ -99,6 +102,9 @@ elif [ "${MODE}" == "channel" ]; then
     log "Creating channel \"${CHANNEL_NAME}\":"
     channel_up
     log "🏁 - Channel is ready."
+    log "Creating channel \"${CHANNEL_NAME1}\":"
+    channel_up1
+    log "🏁 - Channel is ready."
 
   else
     print_help
@@ -129,6 +135,7 @@ elif [ "${MODE}" == "chaincode" ]; then
 
   elif [ "${ACTION}" == "query" ]; then
     query_chaincode $@ >> ${LOG_FILE}
+    query_chaincode1 $@ >> ${LOG_FILE}
   
   elif [ "${ACTION}" == "metadata" ]; then
     query_chaincode_metadata >> ${LOG_FILE}

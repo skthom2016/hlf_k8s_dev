@@ -127,7 +127,7 @@ As the _consortium leader_ org0, we create the channel's genesis block and use t
 services to register the channel genesis block configuration on the ordering nodes: 
 
 ```shell
-configtxgen -profile TwoOrgsApplicationGenesis -channelID '${CHANNEL_NAME}' -outputBlock genesis_block.pb
+configtxgen -profile ThreeOrgsApplicationGenesis -channelID '${CHANNEL_NAME}' -outputBlock genesis_block.pb
 
 osnadmin channel join --orderer-address org0-orderer1:9443 --channelID '${CHANNEL_NAME}' --config-block genesis_block.pb
 osnadmin channel join --orderer-address org0-orderer2:9443 --channelID '${CHANNEL_NAME}' --config-block genesis_block.pb

@@ -382,7 +382,7 @@ Channel: &ChannelDefaults
 Profiles:
 
   # test network profile with application (not system) channel.
-  TwoOrgsApplicationGenesis:
+  ThreeOrgsApplicationGenesis:
     <<: *ChannelDefaults
     Orderer:
       <<: *OrdererDefaults
@@ -397,7 +397,33 @@ Profiles:
         - *Org3        
       Capabilities: *ApplicationCapabilities
 
+  Org1Org2ApplicationGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org1
+        - *Org2
+      Capabilities: *ApplicationCapabilities
 
+  Org1Org3ApplicationGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org1
+        - *Org3        
+      Capabilities: *ApplicationCapabilities
   #
   # Unclear lineage for these profiles:  nano-fab?
   #
@@ -421,6 +447,7 @@ Profiles:
           - *Org1
           - *Org2
           - *Org3
+
   TwoOrgsChannel:
     Consortium: SampleConsortium
     <<: *ChannelDefaults
@@ -432,6 +459,7 @@ Profiles:
         - *Org3
       Capabilities:
         <<: *ApplicationCapabilities
+
   Org1Channel:
     Consortium: SampleConsortium
     <<: *ChannelDefaults

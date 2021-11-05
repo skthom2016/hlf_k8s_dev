@@ -1,65 +1,19 @@
-deployment.apps "org0-admin-cli" deleted
-deployment.apps "org0-ecert-ca" deleted
-deployment.apps "org0-orderer1" deleted
-deployment.apps "org0-orderer2" deleted
-deployment.apps "org0-orderer3" deleted
-deployment.apps "org0-tls-ca" deleted
-deployment.apps "org1-admin-cli" deleted
-deployment.apps "org1-cc-asset-transfer-basic" deleted
-deployment.apps "org1-ecert-ca" deleted
-deployment.apps "org1-peer1" deleted
-deployment.apps "org1-peer2" deleted
-deployment.apps "org1-tls-ca" deleted
-deployment.apps "org2-admin-cli" deleted
-deployment.apps "org2-ecert-ca" deleted
-deployment.apps "org2-peer1" deleted
-deployment.apps "org2-peer2" deleted
-deployment.apps "org2-tls-ca" deleted
-deployment.apps "org3-admin-cli" deleted
-deployment.apps "org3-ecert-ca" deleted
-deployment.apps "org3-peer1" deleted
-deployment.apps "org3-peer2" deleted
-deployment.apps "org3-tls-ca" deleted
-pod "org0-admin-cli-54f58b4854-hlxf6" deleted
-pod "org0-orderer2-8c9c66fb6-rkg5m" deleted
-pod "org1-admin-cli-9cc64895b-gnj2p" deleted
-pod "org2-admin-cli-76d6784799-vrtst" deleted
-pod "org2-tls-ca-6f749d8c7c-pj9sc" deleted
-pod "org3-admin-cli-5dc7cd695b-bjp47" deleted
-pod "org3-ecert-ca-5569c66bc-2hwbv" deleted
-pod "org3-peer2-75f5fc5b8b-szg9s" deleted
-pod "redis" deleted
-service "org0-ecert-ca" deleted
-service "org0-orderer1" deleted
-service "org0-orderer2" deleted
-service "org0-orderer3" deleted
-service "org0-tls-ca" deleted
-service "org1-cc-asset-transfer-basic" deleted
-service "org1-ecert-ca" deleted
-service "org1-peer1" deleted
-service "org1-peer2" deleted
-service "org1-tls-ca" deleted
-service "org2-ecert-ca" deleted
-service "org2-peer1" deleted
-service "org2-peer2" deleted
-service "org2-tls-ca" deleted
-service "org3-ecert-ca" deleted
-service "org3-peer1" deleted
-service "org3-peer2" deleted
-service "org3-tls-ca" deleted
-configmap "kube-root-ca.crt" deleted
-configmap "msp-config" deleted
-configmap "org0-config" deleted
-configmap "org0-orderer1-env" deleted
-configmap "org0-orderer2-env" deleted
-configmap "org0-orderer3-env" deleted
-configmap "org1-config" deleted
-configmap "org1-peer1-config" deleted
-configmap "org1-peer2-config" deleted
-configmap "org2-config" deleted
-configmap "org2-peer2-config" deleted
-configmap "org3-config" deleted
-configmap "org3-peer1-config" deleted
-configmap "org3-peer2-config" deleted
-Unable to connect to the server: http2: client connection lost
-scripts/utils.sh: line 22:  8811 Terminated              tail -f ${LOG_FILE}
++ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
++ echo '
+  export CORE_PEER_ADDRESS=org1-peer1:7051
+  peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
+  '
+Error: error getting endorser client for query: endorser client failed to connect to org1-peer1:7051: failed to create new connection: connection error: desc = "transport: error while dialing: dial tcp: lookup org1-peer1 on 10.0.0.10:53: no such host"
+command terminated with exit code 1
++ exit_fn
++ rc=1
++ '[' 0 -ne 1 ']'
++ pop_fn 1
++ local res=1
++ '[' 1 -eq 0 ']'
++ '[' 1 -eq 0 ']'
++ '[' 1 -eq 1 ']'
++ echo -ne '\r⚠️'
++ echo ''
++ pkill -P 5335
+scripts/utils.sh: line 22:  5352 Terminated              tail -f ${LOG_FILE}

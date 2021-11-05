@@ -84,15 +84,17 @@ function launch_admin_CLIs() {
 }
 
 function create_genesis_block() {
-  push_fn "Creating channel \"${CHANNEL_NAME}\""
+  local channel=$1
+  local profile=$2
+  push_fn "Creating channel \"${channel}\""
 
   echo 'set -x
-  configtxgen -profile TwoOrgsApplicationGenesis -channelID '${CHANNEL_NAME}' -outputBlock genesis_block.pb
-  # configtxgen -inspectBlock genesis_block.pb
+  configtxgen -profile '${profile}' -channelID '${channel}' -outputBlock '${profile}'.pb
+  # configtxgen -inspectBlock '${profile}'.pb
   
-  osnadmin channel join --orderer-address org0-orderer1:9443 --channelID '${CHANNEL_NAME}' --config-block genesis_block.pb
-  osnadmin channel join --orderer-address org0-orderer2:9443 --channelID '${CHANNEL_NAME}' --config-block genesis_block.pb
-  osnadmin channel join --orderer-address org0-orderer3:9443 --channelID '${CHANNEL_NAME}' --config-block genesis_block.pb
+  osnadmin channel join --orderer-address org0-orderer1:9443 --channelID '${channel}' --config-block '${profile}'.pb
+  osnadmin channel join --orderer-address org0-orderer2:9443 --channelID '${channel}' --config-block '${profile}'.pb
+  osnadmin channel join --orderer-address org0-orderer3:9443 --channelID '${channel}' --config-block '${profile}'.pb
   
   ' | exec kubectl -n $NS exec deploy/org0-admin-cli -i -- /bin/bash
   
@@ -104,14 +106,15 @@ function create_genesis_block() {
 
 function join_org_peers() {
   local org=$1
-  push_fn "Joining ${org} peers to channel \"${CHANNEL_NAME}\""
+  local CHANNEL=$2
+  push_fn "Joining ${org} peers to channel \"${CHANNEL}\""
 
   echo 'set -x
   # Fetch the genesis block from an orderer
   peer channel \
     fetch oldest \
     genesis_block.pb \
-    -c '${CHANNEL_NAME}' \
+    -c '${CHANNEL}' \
     -o org0-orderer1:6050 \
     --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
 
@@ -135,11 +138,18 @@ function join_org_peers() {
 
   pop_fn
 }
-
 function join_peers() {
-  join_org_peers org1
-  join_org_peers org2
-  join_org_peers org3
+  local channel=$1
+  join_org_peers org1 $channel
+  join_org_peers org2 $channel
+  join_org_peers org3 $channel
+}
+
+function join_peers1() {
+  local channel=$1
+  join_org_peers org1 $channel
+  join_org_peers org2 $channel
+  # join_org_peers1 org3
 }
 
 # Copy the scripts/anchor_peers.sh to a remote volume
@@ -197,8 +207,23 @@ function channel_up() {
   aggregate_channel_MSP
   launch_admin_CLIs
 
-  create_genesis_block
-  join_peers
+  create_genesis_block $CHANNEL_NAME $PROFILE
+  join_peers $CHANNEL_NAME
+
+  # peer1 was set as the anchor peer in configtx.yaml.  Setting this again will force an
+  # error to be returned from the channel up.  We might want to render the warning in
+  # this case to indicate that the call was made but had a nonzero exit. 
+  # update_anchor_peers peer1
+}
+
+function channel_up1() {
+
+  # create_channel_MSP
+  # aggregate_channel_MSP
+  # launch_admin_CLIs
+
+  create_genesis_block $CHANNEL_NAME1 'Org1Org2ApplicationGenesis'
+  join_peers1 $CHANNEL_NAME1
 
   # peer1 was set as the anchor peer in configtx.yaml.  Setting this again will force an
   # error to be returned from the channel up.  We might want to render the warning in

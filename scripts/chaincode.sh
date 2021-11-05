@@ -70,6 +70,7 @@ function launch_chaincode_service() {
 function activate_chaincode_for() {
   local org=$1
   local cc_id=$2
+  local channel=$3
   push_fn "Activating chaincode ${CHAINCODE_ID}"
 
   echo 'set -x 
@@ -77,7 +78,7 @@ function activate_chaincode_for() {
   
   peer lifecycle \
     chaincode approveformyorg \
-    --channelID '${CHANNEL_NAME}' \
+    --channelID '${channel}' \
     --name '${CHAINCODE_NAME}' \
     --version 1 \
     --package-id '${cc_id}' \
@@ -87,12 +88,44 @@ function activate_chaincode_for() {
   
   peer lifecycle \
     chaincode commit \
-    --channelID '${CHANNEL_NAME}' \
+    --channelID '${channel}' \
     --name '${CHAINCODE_NAME}' \
     --version 1 \
     --sequence 1 \
     -o org0-orderer1:6050 \
     --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  ' | exec kubectl -n $NS exec deploy/${org}-admin-cli -c main -i -- /bin/bash
+
+  pop_fn
+}
+
+function approve_chaincode() {
+  local org=$1
+  local cc_id=$2
+  local channel=$3
+  push_fn "Approving chaincode ${CHAINCODE_ID} for ${org}"
+
+  echo 'set -x 
+  export CORE_PEER_ADDRESS='${org}'-peer1:7051
+  
+  peer lifecycle \
+    chaincode approveformyorg \
+    --channelID '${channel}' \
+    --name '${CHAINCODE_NAME}' \
+    --version 1 \
+    --package-id '${cc_id}' \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  # peer lifecycle \
+  #   chaincode commit \
+  #   --channelID '${channel}' \
+  #   --name '${CHAINCODE_NAME}' \
+  #   --version 1 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
   ' | exec kubectl -n $NS exec deploy/${org}-admin-cli -c main -i -- /bin/bash
 
   pop_fn
@@ -105,6 +138,15 @@ function query_chaincode() {
   export CORE_PEER_ADDRESS=org1-peer1:7051
   peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'$@'"'
   ' | exec kubectl -n $NS exec deploy/org1-admin-cli -c main -i -- /bin/bash
+}
+
+function query_chaincode1() {
+  set -x
+  # todo: mangle additional $@ parameters with bash escape quotations
+  echo '
+  export CORE_PEER_ADDRESS=org2-peer1:7051
+  peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'$@'"'
+  ' | exec kubectl -n $NS exec deploy/org2-admin-cli -c main -i -- /bin/bash
 }
 
 function query_chaincode_metadata() {
@@ -144,7 +186,7 @@ function set_chaincode_id() {
 
 # Package and install the chaincode, but do not activate.
 function install_chaincode() {
-  local org=org1
+  local org=$1
 
   package_chaincode_for ${org}
   transfer_chaincode_archive_for ${org}
@@ -158,15 +200,25 @@ function activate_chaincode() {
   set -x
 
   set_chaincode_id
-  activate_chaincode_for org1 $CHAINCODE_ID
+  echo $CHAINCODE_ID
+  # approve_chaincode org2 $CHAINCODE_ID $CHANNEL_NAME
+  activate_chaincode_for org1 $CHAINCODE_ID $CHANNEL_NAME
+  # activate_chaincode_for org1 $CHAINCODE_ID $CHANNEL_NAME1
+  # activate_chaincode_for org2 $CHAINCODE_ID
+  # activate_chaincode_for org3 $CHAINCODE_ID
 }
 
 # Install, launch, and activate the chaincode
 function deploy_chaincode() {
   set -x
 
-  install_chaincode
+  install_chaincode org1
   launch_chaincode_service org1 $CHAINCODE_ID $CHAINCODE_IMAGE
   activate_chaincode
+  install_chaincode org2
+  launch_chaincode_service org2 $CHAINCODE_ID $CHAINCODE_IMAGE
+  # install_chaincode org3
+  # launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE 
+  
 }
 
