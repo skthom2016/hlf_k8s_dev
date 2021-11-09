@@ -149,12 +149,14 @@ function approve_chaincode() {
 }
 
 function query_chaincode() {
+  local org=$1  
+  local param=$2
   set -x
   # todo: mangle additional $@ parameters with bash escape quotations
   echo '
-  export CORE_PEER_ADDRESS=org1-peer1:7051
-  peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'$@'"'
-  ' | exec kubectl -n $NS exec deploy/org1-admin-cli -c main -i -- /bin/bash
+  export CORE_PEER_ADDRESS='${org}'-peer1:7051
+  peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'${param}'"'
+  ' | exec kubectl -n $NS exec deploy/${org}-admin-cli -c main -i -- /bin/bash
 }
 
 function query_chaincode1() {
@@ -215,12 +217,13 @@ function install_chaincode() {
 
 # Activate the installed chaincode but do not package/install a new archive.
 function activate_chaincode() {
+  local org=$1
   set -x
 
   set_chaincode_id
   echo $CHAINCODE_ID
   # approve_chaincode org2 $CHAINCODE_ID $CHANNEL_NAME
-  activate_chaincode_for org2 $CHAINCODE_ID $CHANNEL_NAME
+  activate_chaincode_for ${org} $CHAINCODE_ID $CHANNEL_NAME
   # activate_chaincode_for org1 $CHAINCODE_ID $CHANNEL_NAME1
   # activate_chaincode_for org2 $CHAINCODE_ID
   # activate_chaincode_for org3 $CHAINCODE_ID
@@ -234,7 +237,9 @@ function deploy_chaincode() {
   launch_chaincode_service org1 $CHAINCODE_ID $CHAINCODE_IMAGE
   install_chaincode org2
   launch_chaincode_service org2 $CHAINCODE_ID $CHAINCODE_IMAGE
-  activate_chaincode
+  install_chaincode org3
+  launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE
+  activate_chaincode org3
 
   # install_chaincode org3
   # launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE 

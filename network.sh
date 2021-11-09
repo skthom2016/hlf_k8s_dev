@@ -134,8 +134,10 @@ elif [ "${MODE}" == "chaincode" ]; then
     invoke_chaincode $@ 2>> ${LOG_FILE}
 
   elif [ "${ACTION}" == "query" ]; then
-    query_chaincode $@ >> ${LOG_FILE}
-    query_chaincode1 $@ >> ${LOG_FILE}
+    query_chaincode org1 $@ >> ${LOG_FILE}
+    query_chaincode org2 $@ >> ${LOG_FILE}
+    query_chaincode org3 $@ >> ${LOG_FILE}
+    # query_chaincode1 $@ >> ${LOG_FILE}
   
   elif [ "${ACTION}" == "metadata" ]; then
     query_chaincode_metadata >> ${LOG_FILE}
