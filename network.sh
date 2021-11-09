@@ -102,9 +102,9 @@ elif [ "${MODE}" == "channel" ]; then
     log "Creating channel \"${CHANNEL_NAME}\":"
     channel_up
     log "🏁 - Channel is ready."
-    log "Creating channel \"${CHANNEL_NAME1}\":"
-    channel_up1
-    log "🏁 - Channel is ready."
+    # log "Creating channel \"${CHANNEL_NAME1}\":"
+    # channel_up1
+    # log "🏁 - Channel is ready."
 
   else
     print_help

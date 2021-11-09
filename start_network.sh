@@ -1,3 +1,4 @@
+./network.sh down
 ./network.sh up 
 ./network.sh channel create
 # # ./network.sh anchor peer2 

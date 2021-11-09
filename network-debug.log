@@ -3,17 +3,15 @@
   export CORE_PEER_ADDRESS=org1-peer1:7051
   peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
   '
-Error: error getting endorser client for query: endorser client failed to connect to org1-peer1:7051: failed to create new connection: connection error: desc = "transport: error while dialing: dial tcp: lookup org1-peer1 on 10.0.0.10:53: no such host"
-command terminated with exit code 1
++ query_chaincode1 '{"Args":["ReadAsset","1"]}'
++ set -x
++ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
++ echo '
+  export CORE_PEER_ADDRESS=org2-peer1:7051
+  peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
+  '
 + exit_fn
-+ rc=1
-+ '[' 0 -ne 1 ']'
-+ pop_fn 1
-+ local res=1
-+ '[' 1 -eq 0 ']'
-+ '[' 1 -eq 0 ']'
-+ '[' 1 -eq 1 ']'
-+ echo -ne '\r⚠️'
-+ echo ''
-+ pkill -P 5335
-scripts/utils.sh: line 22:  5352 Terminated              tail -f ${LOG_FILE}
++ rc=0
++ '[' 0 -ne 0 ']'
++ pkill -P 11058
+scripts/utils.sh: line 22: 11074 Terminated              tail -f ${LOG_FILE}

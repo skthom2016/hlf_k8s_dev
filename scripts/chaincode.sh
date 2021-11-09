@@ -5,13 +5,31 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# function package_chaincode_for() {
+#   local org=$1
+#   local cc_folder="chaincode/${CHAINCODE_NAME}"
+#   local build_folder="build/chaincode"
+#   local cc_archive="${build_folder}/${CHAINCODE_NAME}.tgz"
+#   push_fn "Packaging chaincode folder ${cc_folder}"
+
+#   mkdir -p ${build_folder}
+
+#   tar -C ${cc_folder} -zcf ${cc_folder}/code.tar.gz connection.json
+#   tar -C ${cc_folder} -zcf ${cc_archive} code.tar.gz metadata.json
+
+#   rm ${cc_folder}/code.tar.gz
+
+#   pop_fn
+# }
+
 function package_chaincode_for() {
   local org=$1
-  local cc_folder="chaincode/${CHAINCODE_NAME}"
+  local cc_folder="chaincode/${org}/${CHAINCODE_NAME}"
   local build_folder="build/chaincode"
   local cc_archive="${build_folder}/${CHAINCODE_NAME}.tgz"
   push_fn "Packaging chaincode folder ${cc_folder}"
 
+  rm -rf rm ${build_folder}
   mkdir -p ${build_folder}
 
   tar -C ${cc_folder} -zcf ${cc_folder}/code.tar.gz connection.json
@@ -21,7 +39,6 @@ function package_chaincode_for() {
 
   pop_fn
 }
-
 # Copy the chaincode archive from the local host to the org admin
 function transfer_chaincode_archive_for() {
   local org=$1
@@ -76,15 +93,15 @@ function activate_chaincode_for() {
   echo 'set -x 
   export CORE_PEER_ADDRESS='${org}'-peer1:7051
   
-  peer lifecycle \
-    chaincode approveformyorg \
-    --channelID '${channel}' \
-    --name '${CHAINCODE_NAME}' \
-    --version 1 \
-    --package-id '${cc_id}' \
-    --sequence 1 \
-    -o org0-orderer1:6050 \
-    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  # peer lifecycle \
+  #   chaincode approveformyorg \
+  #   --channelID '${channel}' \
+  #   --name '${CHAINCODE_NAME}' \
+  #   --version 1 \
+  #   --package-id '${cc_id}' \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
   
   peer lifecycle \
     chaincode commit \
@@ -193,6 +210,7 @@ function install_chaincode() {
   install_chaincode_for ${org}
 
   set_chaincode_id
+  approve_chaincode ${org} $CHAINCODE_ID $CHANNEL_NAME
 }
 
 # Activate the installed chaincode but do not package/install a new archive.
@@ -202,7 +220,7 @@ function activate_chaincode() {
   set_chaincode_id
   echo $CHAINCODE_ID
   # approve_chaincode org2 $CHAINCODE_ID $CHANNEL_NAME
-  activate_chaincode_for org1 $CHAINCODE_ID $CHANNEL_NAME
+  activate_chaincode_for org2 $CHAINCODE_ID $CHANNEL_NAME
   # activate_chaincode_for org1 $CHAINCODE_ID $CHANNEL_NAME1
   # activate_chaincode_for org2 $CHAINCODE_ID
   # activate_chaincode_for org3 $CHAINCODE_ID
@@ -214,9 +232,10 @@ function deploy_chaincode() {
 
   install_chaincode org1
   launch_chaincode_service org1 $CHAINCODE_ID $CHAINCODE_IMAGE
-  activate_chaincode
   install_chaincode org2
   launch_chaincode_service org2 $CHAINCODE_ID $CHAINCODE_IMAGE
+  activate_chaincode
+
   # install_chaincode org3
   # launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE 
   
