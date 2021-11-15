@@ -131,11 +131,24 @@ elif [ "${MODE}" == "chaincode" ]; then
     log "🏁 - Chaincode is activated with CHAINCODE_ID=${CHAINCODE_ID}"
 
   elif [ "${ACTION}" == "invoke" ]; then
+    CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org2channel}
+    CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic}
+    invoke_chaincode $@ 2>> ${LOG_FILE}
+
+  elif [ "${ACTION}" == "invoke1" ]; then
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org3channel}
+  CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic1}
     invoke_chaincode $@ 2>> ${LOG_FILE}
 
   elif [ "${ACTION}" == "query" ]; then
+    CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org2channel}
+    CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic}
     query_chaincode org1 $@ >> ${LOG_FILE}
     query_chaincode org2 $@ >> ${LOG_FILE}
+    
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org3channel}
+  CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic1}
+    query_chaincode org1 $@ >> ${LOG_FILE}
     query_chaincode org3 $@ >> ${LOG_FILE}
     # query_chaincode1 $@ >> ${LOG_FILE}
   

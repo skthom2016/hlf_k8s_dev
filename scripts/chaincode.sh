@@ -159,14 +159,14 @@ function query_chaincode() {
   ' | exec kubectl -n $NS exec deploy/${org}-admin-cli -c main -i -- /bin/bash
 }
 
-function query_chaincode1() {
-  set -x
-  # todo: mangle additional $@ parameters with bash escape quotations
-  echo '
-  export CORE_PEER_ADDRESS=org2-peer1:7051
-  peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'$@'"'
-  ' | exec kubectl -n $NS exec deploy/org2-admin-cli -c main -i -- /bin/bash
-}
+# function query_chaincode1() {
+#   set -x
+#   # todo: mangle additional $@ parameters with bash escape quotations
+#   echo '
+#   export CORE_PEER_ADDRESS=org2-peer1:7051
+#   peer chaincode query -n '${CHAINCODE_NAME}' -C '${CHANNEL_NAME}' -c '"'$@'"'
+#   ' | exec kubectl -n $NS exec deploy/org2-admin-cli -c main -i -- /bin/bash
+# }
 
 function query_chaincode_metadata() {
   set -x
