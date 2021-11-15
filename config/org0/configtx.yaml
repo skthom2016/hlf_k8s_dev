@@ -45,7 +45,9 @@ Organizations:
       - org0-orderer1:6050
       - org0-orderer2:6050
       - org0-orderer3:6050
-
+      - org0-orderer4:6050
+      - org0-orderer5:6050
+      
   - &Org1
     # DefaultOrg defines the organization which is used in the sampleconfig
     # of the fabric.git development environment
@@ -268,7 +270,14 @@ Orderer: &OrdererDefaults
         Port: 6050
         ClientTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/signcerts/cert.pem
         ServerTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer3.org0.example.com/tls/signcerts/cert.pem
-
+      - Host: org0-orderer4
+        Port: 6050
+        ClientTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer4.org0.example.com/tls/signcerts/cert.pem
+        ServerTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer4.org0.example.com/tls/signcerts/cert.pem
+      - Host: org0-orderer5
+        Port: 6050
+        ClientTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer5.org0.example.com/tls/signcerts/cert.pem
+        ServerTLSCert: /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer5.org0.example.com/tls/signcerts/cert.pem        
 
     # Options to be specified for all the etcd/raft nodes. The values here
     # are the defaults for all new channels and can be modified on a

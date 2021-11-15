@@ -95,6 +95,8 @@ function create_genesis_block() {
   osnadmin channel join --orderer-address org0-orderer1:9443 --channelID '${channel}' --config-block '${profile}'.pb
   osnadmin channel join --orderer-address org0-orderer2:9443 --channelID '${channel}' --config-block '${profile}'.pb
   osnadmin channel join --orderer-address org0-orderer3:9443 --channelID '${channel}' --config-block '${profile}'.pb
+  osnadmin channel join --orderer-address org0-orderer4:9443 --channelID '${channel}' --config-block '${profile}'.pb
+  osnadmin channel join --orderer-address org0-orderer5:9443 --channelID '${channel}' --config-block '${profile}'.pb
   
   ' | exec kubectl -n $NS exec deploy/org0-admin-cli -i -- /bin/bash
   
