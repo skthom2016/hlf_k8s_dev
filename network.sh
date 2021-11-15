@@ -50,7 +50,7 @@ function print_help() {
 
 . scripts/utils.sh
 . scripts/prereqs.sh
-# . scripts/kind.sh
+. scripts/kind.sh
 . scripts/fabric_config.sh
 . scripts/fabric_CAs.sh
 . scripts/test_network.sh

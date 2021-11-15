@@ -8,9 +8,24 @@ spec:
     image: redis
     volumeMounts:
       - name: fabric-volume
-        mountPath: /var/hyperledger/fabric               
+        mountPath: /var/hyperledger/fabric          
+      - name: fabric-volume-org1
+        mountPath: /org1
+      - name: fabric-volume-org2
+        mountPath: /org2
+      - name: fabric-volume-org3
+        mountPath: /org3             
   volumes:
       - name: fabric-volume
         persistentVolumeClaim:
           claimName: fabric-org0
+      - name: fabric-volume-org1
+        persistentVolumeClaim:
+          claimName: fabric-org1
+      - name: fabric-volume-org2
+        persistentVolumeClaim:
+          claimName: fabric-org2
+      - name: fabric-volume-org3
+        persistentVolumeClaim:
+          claimName: fabric-org3          
                       

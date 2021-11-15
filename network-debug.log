@@ -1,8 +1,8 @@
-+ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
 + echo '
   export CORE_PEER_ADDRESS=org1-peer1:7051
   peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
   '
++ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
 + query_chaincode org2 '{"Args":["ReadAsset","1"]}'
 + local org=org2
 + local 'param={"Args":["ReadAsset","1"]}'
@@ -16,13 +16,12 @@
 + local org=org3
 + local 'param={"Args":["ReadAsset","1"]}'
 + set -x
-+ exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
 + echo '
   export CORE_PEER_ADDRESS=org3-peer1:7051
   peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
   '
++ exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
 + exit_fn
 + rc=0
 + '[' 0 -ne 0 ']'
-+ pkill -P 15341
-scripts/utils.sh: line 22: 15357 Terminated              tail -f ${LOG_FILE}
++ pkill -P 285913

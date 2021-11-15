@@ -13,6 +13,14 @@ function launch_CA() {
     | kubectl -n $NS apply -f -
 }
 
+function delete_CA() {
+  local yaml=$1
+  cat ${yaml} \
+    | sed 's,{{FABRIC_CONTAINER_REGISTRY}},'${FABRIC_CONTAINER_REGISTRY}',g' \
+    | sed 's,{{FABRIC_CA_VERSION}},'${FABRIC_CA_VERSION}',g' \
+    | kubectl -n $NS delete -f -
+}
+
 function launch_TLS_CAs() {
   push_fn "Launching TLS CAs"
 
@@ -44,6 +52,25 @@ function launch_ECert_CAs() {
   kubectl -n $NS rollout status deploy/org1-ecert-ca
   kubectl -n $NS rollout status deploy/org2-ecert-ca
   kubectl -n $NS rollout status deploy/org3-ecert-ca
+
+  # todo: this papers over a nasty bug whereby the CAs are ready, but sporadically refuse connections after a down / up
+  sleep 10
+
+  pop_fn
+}
+
+
+function delete_CAs() {
+  push_fn "deleting CAs"
+
+  delete_CA kube/org0/org0-tls-ca.yaml
+  delete_CA kube/org1/org1-tls-ca.yaml
+  delete_CA kube/org2/org2-tls-ca.yaml
+  delete_CA kube/org3/org3-tls-ca.yaml
+  delete_CA kube/org0/org0-ecert-ca.yaml
+  delete_CA kube/org1/org1-ecert-ca.yaml
+  delete_CA kube/org2/org2-ecert-ca.yaml
+  delete_CA kube/org3/org3-ecert-ca.yaml
 
   # todo: this papers over a nasty bug whereby the CAs are ready, but sporadically refuse connections after a down / up
   sleep 10

@@ -203,8 +203,9 @@ function update_anchor_peers() {
 
 function channel_up() {
 
-  create_channel_MSP
-  aggregate_channel_MSP
+  # create_channel_MSP
+  # aggregate_channel_MSP
+  # delete_CAs
   launch_admin_CLIs
 
   create_genesis_block $CHANNEL_NAME $PROFILE

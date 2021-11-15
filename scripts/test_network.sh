@@ -262,8 +262,13 @@ function create_local_MSP() {
 # Copy the scripts/anchor_peers.sh to a remote volume
 function push_orderer_script() {
   local org=$1
-
+  # export mypath = pwd
   tar cf - scripts/ | kubectl -n $NS exec -i -c redis pod/redis -- tar xf - -C /var/hyperledger/fabric
+  # cd chaincode/chaincode
+  # tar cf - . | kubectl -n $NS exec -i -c redis pod/redis -- tar xf - -C /org1
+  # tar cf - chaincode/chaincode | kubectl -n $NS exec -i -c org1-admin-cli deploy/org1-admin-cli -- tar xf - -C /go/src
+  # tar cf - chaincode/chaincode | kubectl -n $NS exec -i -c redis pod/redis -- tar xf - -C /org2
+  # tar cf - scripts/ | kubectl -n $NS exec -i -c redis pod/redis -- tar xf - -C /org3
 }
 
 function network_up() {
@@ -275,6 +280,7 @@ function network_up() {
 
   # Network TLS CAs
   launch_TLS_CAs
+  kubectl -n $NS apply -f ./kube/org0/redis-storage.yaml
   enroll_bootstrap_TLS_CA_users
 
   # Network ECert CAs
@@ -284,10 +290,12 @@ function network_up() {
 
   # Test Network
   create_local_MSP
-  kubectl -n $NS apply -f ./kube/org0/redis-storage.yaml
   push_orderer_script org0
   kubectl apply -f ./kube/org0/create-artifacts.yaml
   sleep 10
+  create_channel_MSP
+  aggregate_channel_MSP
+  delete_CAs
   launch_orderers
   launch_peers
 }
