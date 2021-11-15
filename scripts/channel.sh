@@ -149,7 +149,14 @@ function join_peers1() {
   local channel=$1
   join_org_peers org1 $channel
   join_org_peers org2 $channel
-  # join_org_peers1 org3
+  # join_org_peers org2 $channel
+}
+
+function join_peers2() {
+  local channel=$1
+  join_org_peers org1 $channel
+  # join_org_peers org2 $channel
+  join_org_peers org3 $channel
 }
 
 # Copy the scripts/anchor_peers.sh to a remote volume
@@ -221,10 +228,19 @@ function channel_up1() {
 
   # create_channel_MSP
   # aggregate_channel_MSP
-  # launch_admin_CLIs
+  launch_admin_CLIs
+  
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org2channel}
+  PROFILE=${TEST_NETWORK_PROFILE_NAME:-Org1Org2ApplicationGenesis}
+  
+  create_genesis_block $CHANNEL_NAME $PROFILE
+  join_peers1 $CHANNEL_NAME
 
-  create_genesis_block $CHANNEL_NAME1 'Org1Org2ApplicationGenesis'
-  join_peers1 $CHANNEL_NAME1
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org3channel}
+  PROFILE=${TEST_NETWORK_PROFILE_NAME:-Org1Org3ApplicationGenesis}
+  
+  create_genesis_block $CHANNEL_NAME $PROFILE
+  join_peers2 $CHANNEL_NAME
 
   # peer1 was set as the anchor peer in configtx.yaml.  Setting this again will force an
   # error to be returned from the channel up.  We might want to render the warning in

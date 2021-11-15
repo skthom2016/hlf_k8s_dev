@@ -24,7 +24,7 @@
 
 function package_chaincode_for() {
   local org=$1
-  local cc_folder="chaincode/${org}/${CHAINCODE_NAME}"
+  local cc_folder="chaincode/${org}/${CHANNEL_NAME}/${CHAINCODE_NAME}"
   local build_folder="build/chaincode"
   local cc_archive="${build_folder}/${CHAINCODE_NAME}.tgz"
   push_fn "Packaging chaincode folder ${cc_folder}"
@@ -233,13 +233,31 @@ function activate_chaincode() {
 function deploy_chaincode() {
   set -x
 
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org2channel}
+  PROFILE=${TEST_NETWORK_PROFILE_NAME:-Org1Org2ApplicationGenesis}
+  CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic}
+  CHAINCODE_IMAGE=${TEST_NETWORK_CHAINCODE_IMAGE:-ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic}
+  CHAINCODE_LABEL=${TEST_NETWORK_CHAINCODE_LABEL:-org1org2basic_1.0}
+
   install_chaincode org1
   launch_chaincode_service org1 $CHAINCODE_ID $CHAINCODE_IMAGE
   install_chaincode org2
   launch_chaincode_service org2 $CHAINCODE_ID $CHAINCODE_IMAGE
+  activate_chaincode org2
+
+  CHANNEL_NAME=${TEST_NETWORK_CHANNEL_NAME:-org1org3channel}
+  PROFILE=${TEST_NETWORK_PROFILE_NAME:-Org1Org3ApplicationGenesis}
+  CHAINCODE_NAME=${TEST_NETWORK_CHAINCODE_NAME:-asset-transfer-basic1}
+  CHAINCODE_LABEL=${TEST_NETWORK_CHAINCODE_LABEL:-org1org3basic_1.0}
+
+  install_chaincode org1
+  launch_chaincode_service org1 $CHAINCODE_ID $CHAINCODE_IMAGE
   install_chaincode org3
   launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE
   activate_chaincode org3
+  # install_chaincode org3
+  # launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE
+  # activate_chaincode org3
 
   # install_chaincode org3
   # launch_chaincode_service org3 $CHAINCODE_ID $CHAINCODE_IMAGE 

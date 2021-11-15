@@ -1,27 +1,578 @@
-+ echo '
++ CHANNEL_NAME=org1org2channel
++ PROFILE=Org1Org2ApplicationGenesis
++ CHAINCODE_NAME=asset-transfer-basic
++ CHAINCODE_IMAGE=ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ CHAINCODE_LABEL=org1org2basic_1.0
++ install_chaincode org1
++ local org=org1
++ package_chaincode_for org1
++ local org=org1
++ local cc_folder=chaincode/org1/org1org2channel/asset-transfer-basic
++ local build_folder=build/chaincode
++ local cc_archive=build/chaincode/asset-transfer-basic.tgz
++ push_fn 'Packaging chaincode folder chaincode/org1/org1org2channel/asset-transfer-basic'
++ echo -ne '   - Packaging chaincode folder chaincode/org1/org1org2channel/asset-transfer-basic ...'
++ rm -rf rm build/chaincode
++ mkdir -p build/chaincode
++ tar -C chaincode/org1/org1org2channel/asset-transfer-basic -zcf chaincode/org1/org1org2channel/asset-transfer-basic/code.tar.gz connection.json
++ tar -C chaincode/org1/org1org2channel/asset-transfer-basic -zcf build/chaincode/asset-transfer-basic.tgz code.tar.gz metadata.json
++ rm chaincode/org1/org1org2channel/asset-transfer-basic/code.tar.gz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ transfer_chaincode_archive_for org1
++ local org=org1
++ local cc_archive=build/chaincode/asset-transfer-basic.tgz
++ push_fn 'Transferring chaincode archive to org1'
++ echo -ne '   - Transferring chaincode archive to org1 ...'
++ tar cf - build/chaincode/asset-transfer-basic.tgz
++ kubectl -n test-network exec -i deploy/org1-admin-cli -c main -- tar xvf -
+build/chaincode/asset-transfer-basic.tgz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode_for org1
++ local org=org1
++ push_fn 'Installing chaincode for org org1'
++ echo -ne '   - Installing chaincode for org org1 ...'
++ echo 'set -x
   export CORE_PEER_ADDRESS=org1-peer1:7051
-  peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
+  peer lifecycle chaincode install build/chaincode/asset-transfer-basic.tgz
++ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
+  '
++ export CORE_PEER_ADDRESS=org1-peer1:7051
++ CORE_PEER_ADDRESS=org1-peer1:7051
++ peer lifecycle chaincode install build/chaincode/asset-transfer-basic.tgz
+[34m2021-11-15 17:39:03.856 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001[0m Installed remotely: response:<status:200 payload:"\nRorg1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9\022\021org1org2basic_1.0" > 
+[34m2021-11-15 17:39:03.856 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002[0m Chaincode code package identifier: org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ set_chaincode_id
+++ tr -s ' '
+++ shasum -a 256 build/chaincode/asset-transfer-basic.tgz
+++ cut -d ' ' -f 1
++ local cc_sha256=03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9
++ CHAINCODE_ID=org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9
++ approve_chaincode org1 org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 org1org2channel
++ local org=org1
++ local cc_id=org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9
++ local channel=org1org2channel
++ push_fn 'Approving chaincode org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 for org1'
++ echo -ne '   - Approving chaincode org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 for org1 ...'
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org1-peer1:7051
+  
+  peer lifecycle \
+    chaincode approveformyorg \
+    --channelID org1org2channel \
+    --name asset-transfer-basic \
+    --version 1 \
+    --package-id org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  # peer lifecycle \
+  #   chaincode commit \
+  #   --channelID org1org2channel \
+  #   --name asset-transfer-basic \
+  #   --version 1 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
   '
 + exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
-+ query_chaincode org2 '{"Args":["ReadAsset","1"]}'
++ export CORE_PEER_ADDRESS=org1-peer1:7051
++ CORE_PEER_ADDRESS=org1-peer1:7051
++ peer lifecycle chaincode approveformyorg --channelID org1org2channel --name asset-transfer-basic --version 1 --package-id org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:07.063 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [f3793d10967e1e0b59bd607488905434c65d5f8cb5b13d160c1d11e816ba3131] committed with status (VALID) at org1-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ launch_chaincode_service org1 org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9 ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ local org=org1
++ local cc_id=org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9
++ local cc_image=ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ push_fn 'Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic"'
++ echo -ne '   - Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic" ...'
++ cat kube/org1/org1-cc-template.yaml
++ sed 's,{{CHAINCODE_NAME}},asset-transfer-basic,g'
++ sed 's,{{CHAINCODE_ID}},org1org2basic_1.0:03cb6215b8d3d30519f1b9f5baa8e51a597e977adfd57809c9fd90bea49ddcd9,g'
++ exec kubectl -n test-network apply -f -
++ sed 's,{{CHAINCODE_IMAGE}},ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic,g'
+deployment.apps/org1-cc-asset-transfer-basic created
+service/org1-cc-asset-transfer-basic created
++ kubectl -n test-network rollout status deploy/org1-cc-asset-transfer-basic
+Waiting for deployment "org1-cc-asset-transfer-basic" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "org1-cc-asset-transfer-basic" rollout to finish: 0 of 1 updated replicas are available...
+deployment "org1-cc-asset-transfer-basic" successfully rolled out
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode org2
 + local org=org2
-+ local 'param={"Args":["ReadAsset","1"]}'
-+ set -x
-+ echo '
++ package_chaincode_for org2
++ local org=org2
++ local cc_folder=chaincode/org2/org1org2channel/asset-transfer-basic
++ local build_folder=build/chaincode
++ local cc_archive=build/chaincode/asset-transfer-basic.tgz
++ push_fn 'Packaging chaincode folder chaincode/org2/org1org2channel/asset-transfer-basic'
++ echo -ne '   - Packaging chaincode folder chaincode/org2/org1org2channel/asset-transfer-basic ...'
++ rm -rf rm build/chaincode
++ mkdir -p build/chaincode
++ tar -C chaincode/org2/org1org2channel/asset-transfer-basic -zcf chaincode/org2/org1org2channel/asset-transfer-basic/code.tar.gz connection.json
++ tar -C chaincode/org2/org1org2channel/asset-transfer-basic -zcf build/chaincode/asset-transfer-basic.tgz code.tar.gz metadata.json
++ rm chaincode/org2/org1org2channel/asset-transfer-basic/code.tar.gz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ transfer_chaincode_archive_for org2
++ local org=org2
++ local cc_archive=build/chaincode/asset-transfer-basic.tgz
++ push_fn 'Transferring chaincode archive to org2'
++ echo -ne '   - Transferring chaincode archive to org2 ...'
++ tar cf - build/chaincode/asset-transfer-basic.tgz
++ kubectl -n test-network exec -i deploy/org2-admin-cli -c main -- tar xvf -
+build/chaincode/asset-transfer-basic.tgz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode_for org2
++ local org=org2
++ push_fn 'Installing chaincode for org org2'
++ echo -ne '   - Installing chaincode for org org2 ...'
++ echo 'set -x
   export CORE_PEER_ADDRESS=org2-peer1:7051
-  peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
+  peer lifecycle chaincode install build/chaincode/asset-transfer-basic.tgz
++ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
+  '
++ export CORE_PEER_ADDRESS=org2-peer1:7051
++ CORE_PEER_ADDRESS=org2-peer1:7051
++ peer lifecycle chaincode install build/chaincode/asset-transfer-basic.tgz
+[34m2021-11-15 17:39:12.928 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001[0m Installed remotely: response:<status:200 payload:"\nRorg1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b\022\021org1org2basic_1.0" > 
+[34m2021-11-15 17:39:12.928 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002[0m Chaincode code package identifier: org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ set_chaincode_id
+++ shasum -a 256 build/chaincode/asset-transfer-basic.tgz
+++ tr -s ' '
+++ cut -d ' ' -f 1
++ local cc_sha256=4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ CHAINCODE_ID=org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ approve_chaincode org2 org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b org1org2channel
++ local org=org2
++ local cc_id=org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ local channel=org1org2channel
++ push_fn 'Approving chaincode org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b for org2'
++ echo -ne '   - Approving chaincode org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b for org2 ...'
++ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org2-peer1:7051
+  
+  peer lifecycle \
+    chaincode approveformyorg \
+    --channelID org1org2channel \
+    --name asset-transfer-basic \
+    --version 1 \
+    --package-id org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  # peer lifecycle \
+  #   chaincode commit \
+  #   --channelID org1org2channel \
+  #   --name asset-transfer-basic \
+  #   --version 1 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  '
++ export CORE_PEER_ADDRESS=org2-peer1:7051
++ CORE_PEER_ADDRESS=org2-peer1:7051
++ peer lifecycle chaincode approveformyorg --channelID org1org2channel --name asset-transfer-basic --version 1 --package-id org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:16.170 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [472d0f70d0aeb8a16ff7095ba5ed92906e314a7020528948497c0ce7b8a27829] committed with status (VALID) at org2-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ launch_chaincode_service org2 org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ local org=org2
++ local cc_id=org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ local cc_image=ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ push_fn 'Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic"'
++ echo -ne '   - Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic" ...'
++ cat kube/org2/org2-cc-template.yaml
++ sed 's,{{CHAINCODE_IMAGE}},ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic,g'
++ sed 's,{{CHAINCODE_NAME}},asset-transfer-basic,g'
++ sed 's,{{CHAINCODE_ID}},org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b,g'
++ exec kubectl -n test-network apply -f -
+deployment.apps/org2-cc-asset-transfer-basic created
+service/org2-cc-asset-transfer-basic created
++ kubectl -n test-network rollout status deploy/org2-cc-asset-transfer-basic
+Waiting for deployment "org2-cc-asset-transfer-basic" rollout to finish: 0 of 1 updated replicas are available...
+deployment "org2-cc-asset-transfer-basic" successfully rolled out
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ activate_chaincode org2
++ local org=org2
++ set -x
++ set_chaincode_id
+++ tr -s ' '
+++ shasum -a 256 build/chaincode/asset-transfer-basic.tgz
+++ cut -d ' ' -f 1
++ local cc_sha256=4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ CHAINCODE_ID=org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ echo org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
+org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ activate_chaincode_for org2 org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b org1org2channel
++ local org=org2
++ local cc_id=org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b
++ local channel=org1org2channel
++ push_fn 'Activating chaincode org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b'
++ echo -ne '   - Activating chaincode org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b ...'
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org2-peer1:7051
+  
+  # peer lifecycle \
+  #   chaincode approveformyorg \
+  #   --channelID org1org2channel \
+  #   --name asset-transfer-basic \
+  #   --version 1 \
+  #   --package-id org1org2basic_1.0:4554abce6c1d3da6834b4d5bcd7658fd840240508ac284f37fee25360764cb8b \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  peer lifecycle \
+    chaincode commit \
+    --channelID org1org2channel \
+    --name asset-transfer-basic \
+    --version 1 \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
   '
 + exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
-+ query_chaincode org3 '{"Args":["ReadAsset","1"]}'
++ export CORE_PEER_ADDRESS=org2-peer1:7051
++ CORE_PEER_ADDRESS=org2-peer1:7051
++ peer lifecycle chaincode commit --channelID org1org2channel --name asset-transfer-basic --version 1 --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:23.091 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [b2eb646eb1198264a6ba906625a028632a5b3cc78d1eeef36d302860cc92bf01] committed with status (VALID) at org2-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ CHANNEL_NAME=org1org3channel
++ PROFILE=Org1Org3ApplicationGenesis
++ CHAINCODE_NAME=asset-transfer-basic1
++ CHAINCODE_LABEL=org1org3basic_1.0
++ install_chaincode org1
++ local org=org1
++ package_chaincode_for org1
++ local org=org1
++ local cc_folder=chaincode/org1/org1org3channel/asset-transfer-basic1
++ local build_folder=build/chaincode
++ local cc_archive=build/chaincode/asset-transfer-basic1.tgz
++ push_fn 'Packaging chaincode folder chaincode/org1/org1org3channel/asset-transfer-basic1'
++ echo -ne '   - Packaging chaincode folder chaincode/org1/org1org3channel/asset-transfer-basic1 ...'
++ rm -rf rm build/chaincode
++ mkdir -p build/chaincode
++ tar -C chaincode/org1/org1org3channel/asset-transfer-basic1 -zcf chaincode/org1/org1org3channel/asset-transfer-basic1/code.tar.gz connection.json
++ tar -C chaincode/org1/org1org3channel/asset-transfer-basic1 -zcf build/chaincode/asset-transfer-basic1.tgz code.tar.gz metadata.json
++ rm chaincode/org1/org1org3channel/asset-transfer-basic1/code.tar.gz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ transfer_chaincode_archive_for org1
++ local org=org1
++ local cc_archive=build/chaincode/asset-transfer-basic1.tgz
++ push_fn 'Transferring chaincode archive to org1'
++ echo -ne '   - Transferring chaincode archive to org1 ...'
++ tar cf - build/chaincode/asset-transfer-basic1.tgz
++ kubectl -n test-network exec -i deploy/org1-admin-cli -c main -- tar xvf -
+build/chaincode/asset-transfer-basic1.tgz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode_for org1
++ local org=org1
++ push_fn 'Installing chaincode for org org1'
++ echo -ne '   - Installing chaincode for org org1 ...'
++ echo 'set -x
+  export CORE_PEER_ADDRESS=org1-peer1:7051
+  peer lifecycle chaincode install build/chaincode/asset-transfer-basic1.tgz
+  '
++ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
++ export CORE_PEER_ADDRESS=org1-peer1:7051
++ CORE_PEER_ADDRESS=org1-peer1:7051
++ peer lifecycle chaincode install build/chaincode/asset-transfer-basic1.tgz
+[34m2021-11-15 17:39:23.879 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001[0m Installed remotely: response:<status:200 payload:"\nRorg1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f\022\021org1org3basic_1.0" > 
+[34m2021-11-15 17:39:23.879 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002[0m Chaincode code package identifier: org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ set_chaincode_id
+++ shasum -a 256 build/chaincode/asset-transfer-basic1.tgz
+++ tr -s ' '
+++ cut -d ' ' -f 1
++ local cc_sha256=667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f
++ CHAINCODE_ID=org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f
++ approve_chaincode org1 org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f org1org3channel
++ local org=org1
++ local cc_id=org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f
++ local channel=org1org3channel
++ push_fn 'Approving chaincode org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f for org1'
++ echo -ne '   - Approving chaincode org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f for org1 ...'
++ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org1-peer1:7051
+  
+  peer lifecycle \
+    chaincode approveformyorg \
+    --channelID org1org3channel \
+    --name asset-transfer-basic1 \
+    --version 1 \
+    --package-id org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  # peer lifecycle \
+  #   chaincode commit \
+  #   --channelID org1org3channel \
+  #   --name asset-transfer-basic1 \
+  #   --version 1 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  '
++ export CORE_PEER_ADDRESS=org1-peer1:7051
++ CORE_PEER_ADDRESS=org1-peer1:7051
++ peer lifecycle chaincode approveformyorg --channelID org1org3channel --name asset-transfer-basic1 --version 1 --package-id org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:26.977 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [af7f21a5c672a45380285fe07a0ca086948925239ec1d766f35c3ff9dcc2bf13] committed with status (VALID) at org1-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ launch_chaincode_service org1 org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ local org=org1
++ local cc_id=org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f
++ local cc_image=ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ push_fn 'Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic"'
++ echo -ne '   - Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic" ...'
++ sed 's,{{CHAINCODE_NAME}},asset-transfer-basic1,g'
++ sed 's,{{CHAINCODE_IMAGE}},ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic,g'
++ cat kube/org1/org1-cc-template.yaml
++ sed 's,{{CHAINCODE_ID}},org1org3basic_1.0:667b3389ab45b625e4285505a6358411cc918a38eb6983653d8dc7c6649c559f,g'
++ exec kubectl -n test-network apply -f -
+deployment.apps/org1-cc-asset-transfer-basic1 created
+service/org1-cc-asset-transfer-basic1 created
++ kubectl -n test-network rollout status deploy/org1-cc-asset-transfer-basic1
+Waiting for deployment "org1-cc-asset-transfer-basic1" rollout to finish: 0 of 1 updated replicas are available...
+deployment "org1-cc-asset-transfer-basic1" successfully rolled out
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode org3
 + local org=org3
-+ local 'param={"Args":["ReadAsset","1"]}'
-+ set -x
-+ echo '
++ package_chaincode_for org3
++ local org=org3
++ local cc_folder=chaincode/org3/org1org3channel/asset-transfer-basic1
++ local build_folder=build/chaincode
++ local cc_archive=build/chaincode/asset-transfer-basic1.tgz
++ push_fn 'Packaging chaincode folder chaincode/org3/org1org3channel/asset-transfer-basic1'
++ echo -ne '   - Packaging chaincode folder chaincode/org3/org1org3channel/asset-transfer-basic1 ...'
++ rm -rf rm build/chaincode
++ mkdir -p build/chaincode
++ tar -C chaincode/org3/org1org3channel/asset-transfer-basic1 -zcf chaincode/org3/org1org3channel/asset-transfer-basic1/code.tar.gz connection.json
++ tar -C chaincode/org3/org1org3channel/asset-transfer-basic1 -zcf build/chaincode/asset-transfer-basic1.tgz code.tar.gz metadata.json
++ rm chaincode/org3/org1org3channel/asset-transfer-basic1/code.tar.gz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ transfer_chaincode_archive_for org3
++ local org=org3
++ local cc_archive=build/chaincode/asset-transfer-basic1.tgz
++ push_fn 'Transferring chaincode archive to org3'
++ echo -ne '   - Transferring chaincode archive to org3 ...'
++ kubectl -n test-network exec -i deploy/org3-admin-cli -c main -- tar xvf -
++ tar cf - build/chaincode/asset-transfer-basic1.tgz
+build/chaincode/asset-transfer-basic1.tgz
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ install_chaincode_for org3
++ local org=org3
++ push_fn 'Installing chaincode for org org3'
++ echo -ne '   - Installing chaincode for org org3 ...'
++ echo 'set -x
   export CORE_PEER_ADDRESS=org3-peer1:7051
-  peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
+  peer lifecycle chaincode install build/chaincode/asset-transfer-basic1.tgz
   '
 + exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
++ export CORE_PEER_ADDRESS=org3-peer1:7051
++ CORE_PEER_ADDRESS=org3-peer1:7051
++ peer lifecycle chaincode install build/chaincode/asset-transfer-basic1.tgz
+[34m2021-11-15 17:39:37.285 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001[0m Installed remotely: response:<status:200 payload:"\nRorg1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335\022\021org1org3basic_1.0" > 
+[34m2021-11-15 17:39:37.285 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002[0m Chaincode code package identifier: org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ set_chaincode_id
+++ tr -s ' '
+++ shasum -a 256 build/chaincode/asset-transfer-basic1.tgz
+++ cut -d ' ' -f 1
++ local cc_sha256=4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ CHAINCODE_ID=org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ approve_chaincode org3 org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 org1org3channel
++ local org=org3
++ local cc_id=org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ local channel=org1org3channel
++ push_fn 'Approving chaincode org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 for org3'
++ echo -ne '   - Approving chaincode org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 for org3 ...'
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org3-peer1:7051
+  
+  peer lifecycle \
+    chaincode approveformyorg \
+    --channelID org1org3channel \
+    --name asset-transfer-basic1 \
+    --version 1 \
+    --package-id org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  # peer lifecycle \
+  #   chaincode commit \
+  #   --channelID org1org3channel \
+  #   --name asset-transfer-basic1 \
+  #   --version 1 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  '
++ exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
++ export CORE_PEER_ADDRESS=org3-peer1:7051
++ CORE_PEER_ADDRESS=org3-peer1:7051
++ peer lifecycle chaincode approveformyorg --channelID org1org3channel --name asset-transfer-basic1 --version 1 --package-id org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:41.225 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [ddfbb22177094b9d2134a4fc5059a164d8e5ecbd9ca672b6f73becec8f3f48af] committed with status (VALID) at org3-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ launch_chaincode_service org3 org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ local org=org3
++ local cc_id=org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ local cc_image=ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic
++ push_fn 'Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic"'
++ echo -ne '   - Launching chaincode container "ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic" ...'
++ cat kube/org3/org3-cc-template.yaml
++ sed 's,{{CHAINCODE_NAME}},asset-transfer-basic1,g'
++ sed 's,{{CHAINCODE_ID}},org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335,g'
++ exec kubectl -n test-network apply -f -
++ sed 's,{{CHAINCODE_IMAGE}},ghcr.io/hyperledgendary/fabric-ccaas-asset-transfer-basic,g'
+deployment.apps/org3-cc-asset-transfer-basic1 created
+service/org3-cc-asset-transfer-basic1 created
++ kubectl -n test-network rollout status deploy/org3-cc-asset-transfer-basic1
+Waiting for deployment "org3-cc-asset-transfer-basic1" rollout to finish: 0 of 1 updated replicas are available...
+deployment "org3-cc-asset-transfer-basic1" successfully rolled out
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ activate_chaincode org3
++ local org=org3
++ set -x
++ set_chaincode_id
+++ shasum -a 256 build/chaincode/asset-transfer-basic1.tgz
+++ tr -s ' '
+++ cut -d ' ' -f 1
++ local cc_sha256=4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ CHAINCODE_ID=org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ echo org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
+org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ activate_chaincode_for org3 org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 org1org3channel
++ local org=org3
++ local cc_id=org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335
++ local channel=org1org3channel
++ push_fn 'Activating chaincode org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335'
++ echo -ne '   - Activating chaincode org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 ...'
++ echo 'set -x 
+  export CORE_PEER_ADDRESS=org3-peer1:7051
+  
+  # peer lifecycle \
+  #   chaincode approveformyorg \
+  #   --channelID org1org3channel \
+  #   --name asset-transfer-basic1 \
+  #   --version 1 \
+  #   --package-id org1org3basic_1.0:4b1d7182b209916867001b9db88ac6e261a73dc025787e8f247e447442f91335 \
+  #   --sequence 1 \
+  #   -o org0-orderer1:6050 \
+  #   --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  
+  peer lifecycle \
+    chaincode commit \
+    --channelID org1org3channel \
+    --name asset-transfer-basic1 \
+    --version 1 \
+    --sequence 1 \
+    -o org0-orderer1:6050 \
+    --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+  '
++ exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
++ export CORE_PEER_ADDRESS=org3-peer1:7051
++ CORE_PEER_ADDRESS=org3-peer1:7051
++ peer lifecycle chaincode commit --channelID org1org3channel --name asset-transfer-basic1 --version 1 --sequence 1 -o org0-orderer1:6050 --tls --cafile /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/msp/tlscacerts/org0-tls-ca.pem
+[34m2021-11-15 17:39:46.793 UTC [chaincodeCmd] ClientWait -> INFO 001[0m txid [95f8540b72f70df8db1440566d659aee65d9420427443e2223c4266bacda5425] committed with status (VALID) at org3-peer1:7051
++ pop_fn
++ local res=
++ '[' 0 -eq 0 ']'
++ echo -ne '\r✅'
++ echo ''
++ log '🏁 - Chaincode is ready.'
++ echo -e 🏁 - Chaincode is ready.
 + exit_fn
 + rc=0
 + '[' 0 -ne 0 ']'
-+ pkill -P 347661
++ pkill -P 449796
