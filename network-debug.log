@@ -7,11 +7,11 @@
 + local org=org2
 + local 'param={"Args":["ReadAsset","1"]}'
 + set -x
-+ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
 + echo '
   export CORE_PEER_ADDRESS=org2-peer1:7051
   peer chaincode query -n asset-transfer-basic -C mychannel -c '\''{"Args":["ReadAsset","1"]}'\''
   '
++ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
 + query_chaincode org3 '{"Args":["ReadAsset","1"]}'
 + local org=org3
 + local 'param={"Args":["ReadAsset","1"]}'
@@ -24,4 +24,4 @@
 + exit_fn
 + rc=0
 + '[' 0 -ne 0 ']'
-+ pkill -P 285913
++ pkill -P 347661
