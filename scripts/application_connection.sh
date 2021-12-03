@@ -10,9 +10,11 @@ function app_extract_MSP_archives() {
   set -ex
   kubectl -n $NS exec deploy/org1-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org1.example.com/msp | tar zxf - -C build/msp
   kubectl -n $NS exec deploy/org2-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org2.example.com/msp | tar zxf - -C build/msp
+  kubectl -n $NS exec deploy/org3-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org3.example.com/msp | tar zxf - -C build/msp
 
   kubectl -n $NS exec deploy/org1-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp | tar zxf - -C build/msp
   kubectl -n $NS exec deploy/org2-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp | tar zxf - -C build/msp
+  kubectl -n $NS exec deploy/org3-ecert-ca -- tar zcf - -C /var/hyperledger/fabric organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp | tar zxf - -C build/msp
 }
 
 function app_one_line_pem {
@@ -58,6 +60,11 @@ function construct_application_configmap() {
 
   echo "$(json_ccp 2 $peer_pem $ca_pem)" > build/application/gateways/org2_ccp.json
   
+  local cert=build/msp/organizations/peerOrganizations/org3.example.com/users/Admin\@org3.example.com/msp/signcerts/cert.pem
+  local pk=build/msp/organizations/peerOrganizations/org3.example.com/users/Admin\@org3.example.com/msp/keystore/server.key
+
+  echo "$(json_ccp 3 $peer_pem $ca_pem)" > build/application/gateways/org3_ccp.json
+  
   local cert=build/msp/organizations/peerOrganizations/org1.example.com/users/Admin\@org1.example.com/msp/signcerts/cert.pem
   local pk=build/msp/organizations/peerOrganizations/org1.example.com/users/Admin\@org1.example.com/msp/keystore/server.key
 
@@ -67,6 +74,11 @@ function construct_application_configmap() {
   local pk=build/msp/organizations/peerOrganizations/org2.example.com/users/Admin\@org2.example.com/msp/keystore/server.key
 
   echo "$(app_id Org2MSP $cert $pk)" > build/application/wallet/appuser_org2.id
+
+  local cert=build/msp/organizations/peerOrganizations/org3.example.com/users/Admin\@org3.example.com/msp/signcerts/cert.pem
+  local pk=build/msp/organizations/peerOrganizations/org3.example.com/users/Admin\@org3.example.com/msp/keystore/server.key
+
+  echo "$(app_id Org3MSP $cert $pk)" > build/application/wallet/appuser_org3.id
 
   kubectl -n $NS delete configmap app-fabric-tls-v1-map || log "app-fabric-tls-v1-map not present"
   kubectl -n $NS create configmap app-fabric-tls-v1-map --from-file=./build/msp/organizations/peerOrganizations/org1.example.com/msp/tlscacerts

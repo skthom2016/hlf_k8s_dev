@@ -311,7 +311,7 @@ function network_up() {
   sleep 10
   create_channel_MSP
   aggregate_channel_MSP
-  delete_CAs
+  # delete_CAs
   launch_orderers
   launch_peers
 }
