@@ -78,7 +78,8 @@ function create_channel_org_MSP() {
 function create_channel_MSP() {
   push_fn "Creating channel MSP"
 
-  create_channel_orderer_MSP org0 orderer 
+  # create_channel_orderer_MSP org0 orderer 
+  create_channel_org_MSP org0 orderer 
   create_channel_org_MSP org1 peer
   create_channel_org_MSP org2 peer
   create_channel_org_MSP org3 peer

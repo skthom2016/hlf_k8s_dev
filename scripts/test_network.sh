@@ -98,16 +98,16 @@ function create_org0_local_MSP() {
   echo "NodeOUs:
     Enable: true
     ClientOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
+      Certificate: intermediatecerts/org0-ecert-ca.pem
       OrganizationalUnitIdentifier: client
     PeerOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
+      Certificate: intermediatecerts/org0-ecert-ca.pem
       OrganizationalUnitIdentifier: peer
     AdminOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
+      Certificate: intermediatecerts/org0-ecert-ca.pem
       OrganizationalUnitIdentifier: admin
     OrdererOUIdentifier:
-      Certificate: cacerts/org0-ecert-ca.pem
+      Certificate: intermediatecerts/org0-ecert-ca.pem
       OrganizationalUnitIdentifier: orderer" > /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/config.yaml
 
   cp /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer1.org0.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/ordererOrganizations/org0.example.com/orderers/org0-orderer2.org0.example.com/msp/config.yaml
@@ -299,15 +299,19 @@ function network_up() {
   sleep 10
   #  local P =`pwd`
   
-  echo 'mkdir -p /org1/fabric-ca-server /org1/fabric-tls-ca-server /org2/fabric-ca-server /org2/fabric-tls-ca-server /org3/fabric-ca-server /org3/fabric-tls-ca-server' | exec kubectl -n $NS exec -i -c redis1 pod/redis1 -- /bin/sh
-  cd certs/org1
+  echo 'mkdir -p /org0/fabric-ca-server /org0/fabric-tls-ca-server /org1/fabric-ca-server /org1/fabric-tls-ca-server /org2/fabric-ca-server /org2/fabric-tls-ca-server /org3/fabric-ca-server /org3/fabric-tls-ca-server' | exec kubectl -n $NS exec -i -c redis1 pod/redis1 -- /bin/sh
+  cd certs/org0
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org0/fabric-ca-server
+  cd ../org1
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org1/fabric-ca-server
   cd ../org2
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org2/fabric-ca-server
   cd ../org3
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org3/fabric-ca-server
   cd ../../
-  cd tlscerts/org1
+  cd tlscerts/org0
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org0/fabric-tls-ca-server
+  cd ../org1
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org1/fabric-tls-ca-server
   cd ../org2
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org2/fabric-tls-ca-server

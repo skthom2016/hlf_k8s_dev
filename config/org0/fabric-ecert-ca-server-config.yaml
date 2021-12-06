@@ -88,11 +88,11 @@ ca:
   # Name of this CA
   name: org0-ecert-ca
   # Key file (is only used to import a private key into BCCSP)
-  keyfile:
+  keyfile: /var/hyperledger/fabric-ca-server/ica.key
   # Certificate file (default: ca-cert.pem)
-  certfile:
+  certfile: /var/hyperledger/fabric-ca-server/ica.cert
   # Chain file
-  chainfile:
+  chainfile: /var/hyperledger/fabric-ca-server/chain.cert
 
 #############################################################################
 #  The gencrl REST endpoint is used to generate a CRL that contains revoked
