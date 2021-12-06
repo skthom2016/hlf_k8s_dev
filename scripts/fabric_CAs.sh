@@ -80,7 +80,7 @@ function delete_CAs() {
 
 # Enroll bootstrap user with TLS CA
 # https://hyperledger-fabric-ca.readthedocs.io/en/latest/deployguide/cadeploy.html#enroll-bootstrap-user-with-tls-ca
-function enroll_bootstrap_TLS_CA_user() {
+function enroll_bootstrap_TLS_CA_user0() {
   local org=$1
   local auth=$2
   local tlsca=${org}-tls-ca
@@ -101,10 +101,31 @@ function enroll_bootstrap_TLS_CA_user() {
   ' | exec kubectl -n $NS exec deploy/${tlsca} -i -- /bin/sh
 }
 
+function enroll_bootstrap_TLS_CA_user() {
+  local org=$1
+  local auth=$2
+  local tlsca=${org}-tls-ca
+
+  # todo: get rid of export here - put in yaml
+
+  echo 'set -x
+
+  mkdir -p $FABRIC_CA_CLIENT_HOME/tls-root-cert
+  cp $FABRIC_CA_SERVER_HOME/ica.cert $FABRIC_CA_CLIENT_HOME/tls-root-cert/tls-ca-cert.pem
+
+  fabric-ca-client enroll \
+    --url https://'$auth'@'${tlsca}' \
+    --tls.certfiles $FABRIC_CA_CLIENT_HOME/tls-root-cert/tls-ca-cert.pem \
+    --csr.hosts '${tlsca}' \
+    --mspdir $FABRIC_CA_CLIENT_HOME/tls-ca/tlsadmin/msp
+
+  ' | exec kubectl -n $NS exec deploy/${tlsca} -i -- /bin/sh
+}
+
 function enroll_bootstrap_TLS_CA_users() {
   push_fn "Enrolling bootstrap TLS CA users"
 
-  enroll_bootstrap_TLS_CA_user org0 $TLSADMIN_AUTH
+  enroll_bootstrap_TLS_CA_user0 org0 $TLSADMIN_AUTH
   enroll_bootstrap_TLS_CA_user org1 $TLSADMIN_AUTH
   enroll_bootstrap_TLS_CA_user org2 $TLSADMIN_AUTH
   enroll_bootstrap_TLS_CA_user org3 $TLSADMIN_AUTH
