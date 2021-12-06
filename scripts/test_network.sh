@@ -296,10 +296,10 @@ function network_up() {
 
   # Network TLS CAs
   kubectl -n $NS apply -f ./kube/org0/ca-cert-copy-pod.yaml
-sleep 10
+  sleep 10
   #  local P =`pwd`
   
-  echo 'mkdir -p /org1/fabric-ca-server  /org2/fabric-ca-server /org3/fabric-ca-server' | exec kubectl -n $NS exec -i -c redis1 pod/redis1 -- /bin/sh
+  echo 'mkdir -p /org1/fabric-ca-server /org1/fabric-tls-ca-server /org2/fabric-ca-server /org2/fabric-tls-ca-server /org3/fabric-ca-server /org3/fabric-tls-ca-server' | exec kubectl -n $NS exec -i -c redis1 pod/redis1 -- /bin/sh
   cd certs/org1
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org1/fabric-ca-server
   cd ../org2
@@ -307,6 +307,14 @@ sleep 10
   cd ../org3
   tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org3/fabric-ca-server
   cd ../../
+  cd tlscerts/org1
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org1/fabric-tls-ca-server
+  cd ../org2
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org2/fabric-tls-ca-server
+  cd ../org3
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org3/fabric-tls-ca-server
+  cd ../../
+  
   #  cd $P
   launch_TLS_CAs
   kubectl -n $NS apply -f ./kube/org0/redis-storage.yaml
