@@ -149,16 +149,16 @@ function create_org1_local_MSP() {
   echo "NodeOUs:
     Enable: true
     ClientOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
+      Certificate: intermediatecerts/org1-ecert-ca.pem
       OrganizationalUnitIdentifier: client
     PeerOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
+      Certificate: intermediatecerts/org1-ecert-ca.pem
       OrganizationalUnitIdentifier: peer
     AdminOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
+      Certificate: intermediatecerts/org1-ecert-ca.pem
       OrganizationalUnitIdentifier: admin
     OrdererOUIdentifier:
-      Certificate: cacerts/org1-ecert-ca.pem
+      Certificate: intermediatecerts/org1-ecert-ca.pem
       OrganizationalUnitIdentifier: orderer" > /var/hyperledger/fabric/organizations/peerOrganizations/org1.example.com/peers/org1-peer1.org1.example.com/msp/config.yaml
 
 
@@ -199,16 +199,16 @@ function create_org2_local_MSP() {
   echo "NodeOUs:
     Enable: true
     ClientOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
+      Certificate: intermediatecerts/org2-ecert-ca.pem
       OrganizationalUnitIdentifier: client
     PeerOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
+      Certificate: intermediatecerts/org2-ecert-ca.pem
       OrganizationalUnitIdentifier: peer
     AdminOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
+      Certificate: intermediatecerts/org2-ecert-ca.pem
       OrganizationalUnitIdentifier: admin
     OrdererOUIdentifier:
-      Certificate: cacerts/org2-ecert-ca.pem
+      Certificate: intermediatecerts/org2-ecert-ca.pem
       OrganizationalUnitIdentifier: orderer" > /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/config.yaml
 
   cp /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer1.org2.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org2.example.com/peers/org2-peer2.org2.example.com/msp/config.yaml
@@ -247,16 +247,16 @@ function create_org3_local_MSP() {
   echo "NodeOUs:
     Enable: true
     ClientOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
+      Certificate: intermediatecerts/org3-ecert-ca.pem
       OrganizationalUnitIdentifier: client
     PeerOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
+      Certificate: intermediatecerts/org3-ecert-ca.pem
       OrganizationalUnitIdentifier: peer
     AdminOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
+      Certificate: intermediatecerts/org3-ecert-ca.pem
       OrganizationalUnitIdentifier: admin
     OrdererOUIdentifier:
-      Certificate: cacerts/org3-ecert-ca.pem
+      Certificate: intermediatecerts/org3-ecert-ca.pem
       OrganizationalUnitIdentifier: orderer" > /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml
 
   cp /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer1.org3.example.com/msp/config.yaml /var/hyperledger/fabric/organizations/peerOrganizations/org3.example.com/peers/org3-peer2.org3.example.com/msp/config.yaml
@@ -295,6 +295,19 @@ function network_up() {
   load_org_config
 
   # Network TLS CAs
+  kubectl -n $NS apply -f ./kube/org0/ca-cert-copy-pod.yaml
+sleep 10
+  #  local P =`pwd`
+  
+  echo 'mkdir -p /org1/fabric-ca-server  /org2/fabric-ca-server /org3/fabric-ca-server' | exec kubectl -n $NS exec -i -c redis1 pod/redis1 -- /bin/sh
+  cd certs/org1
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org1/fabric-ca-server
+  cd ../org2
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org2/fabric-ca-server
+  cd ../org3
+  tar cf - . | kubectl -n $NS exec -i -c redis1 pod/redis1 -- tar xf - -C /org3/fabric-ca-server
+  cd ../../
+  #  cd $P
   launch_TLS_CAs
   kubectl -n $NS apply -f ./kube/org0/redis-storage.yaml
   enroll_bootstrap_TLS_CA_users

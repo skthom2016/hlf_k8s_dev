@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-function create_channel_org_MSP() {
+function create_channel_orderer_MSP() {
   local org=$1
   local org_type=$2
   local ecert_ca=${org}-ecert-ca 
@@ -40,10 +40,45 @@ function create_channel_org_MSP() {
   ' | exec kubectl -n $NS exec deploy/${ecert_ca} -i -- /bin/sh
 }
 
+function create_channel_org_MSP() {
+  local org=$1
+  local org_type=$2
+  local ecert_ca=${org}-ecert-ca 
+  
+  echo 'set -x
+ 
+  mkdir -p /var/hyperledger/fabric/organizations/'${org_type}'Organizations/'${org}'.example.com/msp/cacerts
+  cp \
+    $FABRIC_CA_CLIENT_HOME/'${ecert_ca}'/rcaadmin/msp/intermediatecerts/'${ecert_ca}'.pem \
+    /var/hyperledger/fabric/organizations/'${org_type}'Organizations/'${org}'.example.com/msp/cacerts
+  
+  mkdir -p /var/hyperledger/fabric/organizations/'${org_type}'Organizations/'${org}'.example.com/msp/tlscacerts
+  cp \
+    $FABRIC_CA_CLIENT_HOME/tls-ca/tlsadmin/msp/intermediatecerts/'${org}'-tls-ca.pem \
+    /var/hyperledger/fabric/organizations/'${org_type}'Organizations/'${org}'.example.com/msp/tlscacerts
+  
+  echo "NodeOUs:
+    Enable: true
+    ClientOUIdentifier:
+      Certificate: intermediatecerts/'${ecert_ca}'.pem
+      OrganizationalUnitIdentifier: client
+    PeerOUIdentifier:
+      Certificate: intermediatecerts/'${ecert_ca}'.pem
+      OrganizationalUnitIdentifier: peer
+    AdminOUIdentifier:
+      Certificate: intermediatecerts/'${ecert_ca}'.pem
+      OrganizationalUnitIdentifier: admin
+    OrdererOUIdentifier:
+      Certificate: intermediatecerts/'${ecert_ca}'.pem
+      OrganizationalUnitIdentifier: orderer "> /var/hyperledger/fabric/organizations/'${org_type}'Organizations/'${org}'.example.com/msp/config.yaml
+      
+  ' | exec kubectl -n $NS exec deploy/${ecert_ca} -i -- /bin/sh
+}
+
 function create_channel_MSP() {
   push_fn "Creating channel MSP"
 
-  create_channel_org_MSP org0 orderer 
+  create_channel_orderer_MSP org0 orderer 
   create_channel_org_MSP org1 peer
   create_channel_org_MSP org2 peer
   create_channel_org_MSP org3 peer

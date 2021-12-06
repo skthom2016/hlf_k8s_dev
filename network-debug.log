@@ -1,38 +1,91 @@
-+ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
-+ echo '
-  export CORE_PEER_ADDRESS=org1-peer1:7051
-  peer chaincode query -n asset-transfer-basic -C org1org2channel -c '\''{"Args":["ReadAsset","1"]}'\''
-  '
-+ query_chaincode org2 '{"Args":["ReadAsset","1"]}'
-+ local org=org2
-+ local 'param={"Args":["ReadAsset","1"]}'
-+ set -x
-+ echo '
-  export CORE_PEER_ADDRESS=org2-peer1:7051
-  peer chaincode query -n asset-transfer-basic -C org1org2channel -c '\''{"Args":["ReadAsset","1"]}'\''
-  '
-+ exec kubectl -n test-network exec deploy/org2-admin-cli -c main -i -- /bin/bash
-+ CHANNEL_NAME=org1org3channel
-+ CHAINCODE_NAME=asset-transfer-basic1
-+ query_chaincode org1 '{"Args":["ReadAsset","1"]}'
-+ local org=org1
-+ local 'param={"Args":["ReadAsset","1"]}'
-+ set -x
-+ echo '
-  export CORE_PEER_ADDRESS=org1-peer1:7051
-  peer chaincode query -n asset-transfer-basic1 -C org1org3channel -c '\''{"Args":["ReadAsset","1"]}'\''
-  '
-+ exec kubectl -n test-network exec deploy/org1-admin-cli -c main -i -- /bin/bash
-+ query_chaincode org3 '{"Args":["ReadAsset","1"]}'
-+ local org=org3
-+ local 'param={"Args":["ReadAsset","1"]}'
-+ set -x
-+ echo '
-  export CORE_PEER_ADDRESS=org3-peer1:7051
-  peer chaincode query -n asset-transfer-basic1 -C org1org3channel -c '\''{"Args":["ReadAsset","1"]}'\''
-  '
-+ exec kubectl -n test-network exec deploy/org3-admin-cli -c main -i -- /bin/bash
-+ exit_fn
-+ rc=0
-+ '[' 0 -ne 0 ']'
-+ pkill -P 573659
+deployment.apps "org0-admin-cli" deleted
+deployment.apps "org0-ecert-ca" deleted
+deployment.apps "org0-orderer1" deleted
+deployment.apps "org0-orderer2" deleted
+deployment.apps "org0-orderer3" deleted
+deployment.apps "org0-orderer4" deleted
+deployment.apps "org0-orderer5" deleted
+deployment.apps "org0-tls-ca" deleted
+deployment.apps "org1-admin-cli" deleted
+deployment.apps "org1-ecert-ca" deleted
+deployment.apps "org1-peer1" deleted
+deployment.apps "org1-peer2" deleted
+deployment.apps "org1-tls-ca" deleted
+deployment.apps "org2-admin-cli" deleted
+deployment.apps "org2-ecert-ca" deleted
+deployment.apps "org2-peer1" deleted
+deployment.apps "org2-peer2" deleted
+deployment.apps "org2-tls-ca" deleted
+deployment.apps "org3-admin-cli" deleted
+deployment.apps "org3-ecert-ca" deleted
+deployment.apps "org3-peer1" deleted
+deployment.apps "org3-peer2" deleted
+deployment.apps "org3-tls-ca" deleted
+pod "org0-admin-cli-54f58b4854-vlccd" deleted
+pod "org0-orderer1-6f769548d6-l2glk" deleted
+pod "org0-orderer2-8c9c66fb6-vbp62" deleted
+pod "org0-orderer3-5494547546-9vqkm" deleted
+pod "org0-orderer4-b4f548986-npmjm" deleted
+pod "org0-orderer5-56dd89f7b6-kgk2z" deleted
+pod "org0-tls-ca-7b57d675f8-5w86m" deleted
+pod "org1-admin-cli-9cc64895b-9qkp2" deleted
+pod "org1-ecert-ca-566f79bc4d-qgljw" deleted
+pod "org1-peer1-5d8547cbc8-rqc4z" deleted
+pod "org1-peer2-7d5d89bd98-d7t8j" deleted
+pod "org1-tls-ca-c6685b4cb-6zpw7" deleted
+pod "org2-admin-cli-76d6784799-52hxv" deleted
+pod "org2-ecert-ca-5d55c7f974-jgsfg" deleted
+pod "org2-peer1-849d648447-2dx9m" deleted
+pod "org2-peer2-67878ff8bf-cr79b" deleted
+pod "org2-tls-ca-85959dcf9d-7kklp" deleted
+pod "org3-admin-cli-5dc7cd695b-8g2b5" deleted
+pod "org3-ecert-ca-9546f74c6-6bxkb" deleted
+pod "org3-peer1-6b89c89d6d-p4j5j" deleted
+pod "org3-peer2-75f5fc5b8b-wrj6m" deleted
+pod "org3-tls-ca-6ffc468f44-xdb55" deleted
+pod "redis" deleted
+pod "redis1" deleted
+service "org0-ecert-ca" deleted
+service "org0-orderer1" deleted
+service "org0-orderer2" deleted
+service "org0-orderer3" deleted
+service "org0-orderer4" deleted
+service "org0-orderer5" deleted
+service "org0-tls-ca" deleted
+service "org1-ecert-ca" deleted
+service "org1-peer1" deleted
+service "org1-peer2" deleted
+service "org1-tls-ca" deleted
+service "org2-ecert-ca" deleted
+service "org2-peer1" deleted
+service "org2-peer2" deleted
+service "org2-tls-ca" deleted
+service "org3-ecert-ca" deleted
+service "org3-peer1" deleted
+service "org3-peer2" deleted
+service "org3-tls-ca" deleted
+configmap "app-fabric-ccp-v1-map" deleted
+configmap "app-fabric-ids-v1-map" deleted
+configmap "app-fabric-org1-v1-map" deleted
+configmap "app-fabric-tls-v1-map" deleted
+configmap "kube-root-ca.crt" deleted
+configmap "msp-config" deleted
+configmap "org0-config" deleted
+configmap "org0-orderer1-env" deleted
+configmap "org0-orderer2-env" deleted
+configmap "org0-orderer3-env" deleted
+configmap "org0-orderer4-env" deleted
+configmap "org0-orderer5-env" deleted
+configmap "org1-config" deleted
+configmap "org1-peer1-config" deleted
+configmap "org1-peer2-config" deleted
+configmap "org2-config" deleted
+configmap "org2-peer1-config" deleted
+configmap "org2-peer2-config" deleted
+configmap "org3-config" deleted
+configmap "org3-peer1-config" deleted
+configmap "org3-peer2-config" deleted
+secret "default-token-cfpjc" deleted
+job.batch/job-scrub-fabric-volumes created
+job.batch/job-scrub-fabric-volumes condition met
+job.batch "job-scrub-fabric-volumes" deleted

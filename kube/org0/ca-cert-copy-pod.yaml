@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis1
+spec:
+  containers:
+  - name: redis1
+    image: redis
+    volumeMounts:
+      - name: fabric-volume
+        mountPath: /org0
+        # subPath: fabric-ca-server          
+      - name: fabric-volume-org1
+        mountPath: /org1
+        # subPath: fabric-ca-server 
+      - name: fabric-volume-org2
+        mountPath: /org2
+        # subPath: fabric-ca-server 
+      - name: fabric-volume-org3
+        mountPath: /org3
+        # subPath: fabric-ca-server              
+  volumes:
+      - name: fabric-volume
+        persistentVolumeClaim:
+          claimName: fabric-org0
+      - name: fabric-volume-org1
+        persistentVolumeClaim:
+          claimName: fabric-org1
+      - name: fabric-volume-org2
+        persistentVolumeClaim:
+          claimName: fabric-org2
+      - name: fabric-volume-org3
+        persistentVolumeClaim:
+          claimName: fabric-org3          
+                      

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-fabric-org1-v1-map
+data:
+  fabric_channel: mychannel
+  fabric_contract: asset-transfer-basic
+  fabric_wallet_dir: /fabric/application/wallet
+  fabric_gateway_hostport: org1-peer1:7051
+  fabric_gateway_sslHostOverride: org1-peer1
+  fabric_user: appuser_org1
+  fabric_gateway_tlsCertPath: /fabric/tlscacerts/org1-tls-ca.pem

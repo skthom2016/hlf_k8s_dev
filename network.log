@@ -1,4 +1,4 @@
-{"ID":"1","color":"blue","size":35,"owner":"Pradeep","appraisedValue":1000}
-{"ID":"1","color":"blue","size":35,"owner":"Pradeep","appraisedValue":1000}
-{"ID":"1","color":"green","size":35,"owner":"Santhosh","appraisedValue":1000}
-{"ID":"1","color":"green","size":35,"owner":"Santhosh","appraisedValue":1000}
+Shutting down test network "test-network":
+   - Stopping Fabric services ...✅
+   - Scrubbing Fabric volumes ...✅
+🏁 - Fabric network is down.
